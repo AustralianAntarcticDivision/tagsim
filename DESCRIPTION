@@ -1,0 +1,20 @@
+Package: tagsim
+Type: Package
+Title: Simple population model for tag-based simulations
+Description: Simulation model of tagged and untagged individuals. Used for evaulating tag-based population models.
+Version: 0.1.0
+Date: 2017-03-11
+Author: Paul Burch
+Maintainer: Paul Burch <Paul.Burch@aad.gov.au>
+Depends:
+    R (>= 3.0.1),
+Suggests:
+    knitr,
+    testthat,
+    rmarkdown
+Imports:
+    tagr
+VignetteBuilder: knitr
+LazyData: true
+License: GPL-3
+RoxygenNote: 5.0.1
