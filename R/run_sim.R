@@ -2,16 +2,16 @@
 #'
 #' Run a simulation model
 #' @param control control file
-#' @param nsims number of simulations
+#' @param n_reps number of MCMC replicates
 #' @param save save the output (default=FALSE)
 #' @param path path for the output
 #' @param filename filename for the control file
 #' @export
-run_sim <- function(control, nsims, save=FALSE, path=NULL, filename=NULL){
+run_sim <- function(control, n_reps, save=FALSE, path=NULL, filename=NULL){
   ## storage for the final results (do we want this by region?)
-  storage <- create_storage(control, nsims)
+  storage <- create_storage(control, n_reps)
   ## loop over the simulations
-  for(i in 1:nsims){
+  for(i in 1:n_reps){
     #print(paste("## Simulation ",iSim," ##",sep=""))
     ## the first index is already created
     model <- create_model(control)

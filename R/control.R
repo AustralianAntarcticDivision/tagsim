@@ -115,20 +115,20 @@ create_model <- function(control){
 #'
 #' Create an object to store simulation results
 #' @param control a control file
-#' @param nsims number of simulations
+#' @param n_reps number of MCMC replicates
 #' @export
-create_storage <- function(control, nsims){
+create_storage <- function(control, n_reps){
   ##
   if(control[["assess_pars"]]$type %in% c("tag", "survey")){
-    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=nsims),
-               "est_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=nsims),
-               "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=nsims))
+    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+               "est_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+               "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps))
   ## return the object
   return(obj)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
-    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=nsims),
-               "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=nsims),
-               "effort" = matrix(0, nrow=control[["n_years"]] + 1, ncol=nsims)
+    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+               "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+               "effort" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps)
                )
     ## return the object
     return(obj)
