@@ -5,28 +5,34 @@
 #' A simulation is run using the function (see \code{\link{run_sim}})
 #' @param years vector of years (integers starting with 1)
 #' @param regions vector of regions (integers starting with 1)
-#' @param pop_pars list of population parameters containing the initial population
-#' size ("initial") and instantaneous natural mortality ("nat_mort")
-#' @param rec_pars list of recruitment parameters containing the name of the mechanism
-#' for calculating recruitment ("type"; can be either "constant", "logistic", "bevholt"
-#' or "ricker") see \code{\link{est_recruits}}, the spatial distribution of the recruitment
-#' is assigment with "spat_dist" which can be "uniform", "lognormal" or "user" specified
-#' (see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment is determined
-#' @param harvest_pars harvest parameters a list containing "type" ("const_exploit" =
-#' constant exploitation rate, "TAC" = constant catch, ...),  (see \code{\link{calc_catch}})
+#' @param pop_pars list of population parameters containing the initial
+#' population size ("initial") and instantaneous natural mortality ("nat_mort")
+#' @param rec_pars list of recruitment parameters containing the name of the
+#' mechanism for calculating recruitment ("type"; can be either "constant",
+#' "logistic", "bevholt" or "ricker") see \code{\link{est_recruits}}, the
+#' spatial distribution of the recruitment is assigment with "spat_dist" which
+#' can be "uniform", "lognormal" or "user" specified
+#' (see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment
+#' is determined
+#' @param harvest_pars harvest parameters a list containing "type"
+#' ("const_exploit" = constant exploitation rate, "TAC" = constant catch, ...),
+#' (see \code{\link{calc_catch}})
 #' @param tag_pars list of tag related parameters (release, mort, shed, report)
-#' @param fish_pars list of parameters relating to the fishing strategy . The intent is for
-#' these to control the spatial dynamics of fishing and for harvest_pars to determine total
-#' catch (see \code{\link{fishing_locs}})
-#' @param move_pars list of movement parameters "type", "prob" (see \code{\link{move_matrix}})
-#' @param assess_pars list of assessment parameters (see \code{\link{do_assessment}})
+#' @param fish_pars list of parameters relating to the fishing strategy. The
+#' intent is for these to control the spatial dynamics of fishing and for
+#' harvest_pars to determine total catch (see \code{\link{fishing_locs}})
+#' @param move_pars list of movement parameters "type", "prob" (see
+#'  \code{\link{move_matrix}})
+#' @param assess_pars list of assessment parameters (see
+#' \code{\link{do_assessment}})
 #' @param stoch_rec stochasitc recruitment (default=TRUE)
 #' @aliases control
 #' @export
 create_control <- function(years,
                            regions,
                            pop_pars,
-                           rec_pars=list("type"="constant", "mu"=0, "s"=1, "spat_dist"="uniform"),
+                           rec_pars=list("type"="constant", "mu"=0, "s"=1,
+                                         "spat_dist"="uniform"),
                            harvest_pars,
                            tag_pars,
                            fish_pars,
@@ -95,16 +101,19 @@ create_model <- function(control){
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
   }
   ## add initial recruitment (not getting used currently)
-  init_R[1,] <- control[["rec_area"]] * est_recruits(type=control[["rec_pars"]]$type, N = init_N[1,],
-                                                     rec_pars=control[["rec_pars"]], var=control[["stochastic_rec"]])
+  init_R[1,] <- control[["rec_area"]] *
+    est_recruits(type=control[["rec_pars"]]$type,
+                 N = init_N[1,],
+                 rec_pars=control[["rec_pars"]],
+                 var=control[["stochastic_rec"]])
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object
   obj <- list("N" = init_N,
-              "tags" =  matrix(0, control[["n_years"]] + 1, control[["n_regions"]]),
-              "recaps" = matrix(0, control[["n_years"]] + 1, control[["n_regions"]]),
+              "tags" =  matrix(0,control[["n_years"]] + 1,control[["n_regions"]]),
+              "recaps" = matrix(0,control[["n_years"]] + 1,control[["n_regions"]]),
               "recruits" = init_R,
-              "catch" = matrix(0, control[["n_years"]] + 1, control[["n_regions"]]),
+              "catch" = matrix(0,control[["n_years"]] + 1,control[["n_regions"]]),
               "abund_est" = init_A
   )
   ## return the object
