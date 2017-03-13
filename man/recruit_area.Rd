@@ -18,4 +18,3 @@ recruit_area(method, n_areas, user_props = NULL, ...)
 \description{
 Calculate the proportions of recruitment by spatial cell
 }
-

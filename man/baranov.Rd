@@ -17,4 +17,3 @@ baranov(N, M, F)
 Returns catch for given F for population size N
 with natural and fishing mortality M and F respectively
 }
-

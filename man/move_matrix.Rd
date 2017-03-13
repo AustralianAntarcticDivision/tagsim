@@ -20,4 +20,3 @@ move_matrix(method, n_rows, n_cols, prob = NULL, matrix = NULL)
 \description{
 Create a transition matrix of movement probabilities
 }
-

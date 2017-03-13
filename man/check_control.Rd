@@ -12,4 +12,3 @@ check_control(control)
 \description{
 Check the parameters in a control file
 }
-

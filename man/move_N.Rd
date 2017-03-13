@@ -14,4 +14,3 @@ move_N(d, move_mat)
 \description{
 Implement movement of fish in a population array
 }
-

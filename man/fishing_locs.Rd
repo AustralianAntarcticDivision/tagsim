@@ -20,4 +20,3 @@ fishing_locs(type, regions, prop, revisit_prop, old_locs)
 \description{
 Fishing locations based on a strategy and proportion area fished
 }
-

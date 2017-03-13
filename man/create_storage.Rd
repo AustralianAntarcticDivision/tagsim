@@ -4,14 +4,13 @@
 \alias{create_storage}
 \title{Create an object to store simulation results}
 \usage{
-create_storage(control, nsims)
+create_storage(control, n_reps)
 }
 \arguments{
 \item{control}{a control file}
 
-\item{nsims}{number of simulations}
+\item{n_reps}{number of MCMC replicates}
 }
 \description{
 Create an object to store simulation results
 }
-

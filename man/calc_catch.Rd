@@ -16,4 +16,3 @@ calc_catch(control, N_area, est_area)
 \description{
 Calculate catch numbers for a year
 }
-

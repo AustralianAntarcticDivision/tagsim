@@ -16,4 +16,3 @@ adjacted_move(n_rows, n_cols, prob)
 \description{
 Create a transition matrix of movement to adjacent cells
 }
-

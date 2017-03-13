@@ -2,6 +2,7 @@
 % Please edit documentation in R/generics.r, R/recruitment.R
 \name{est_recruits}
 \alias{est_recruits}
+\alias{est_recruits}
 \title{Calculate recrutiment from previous years population}
 \usage{
 est_recruits(type, N_area, rec_pars, var = FALSE)
@@ -35,4 +36,3 @@ var controls whether the recruitment is stochastic
 
 Estimate recruitment the total annual recruitment
 }
-

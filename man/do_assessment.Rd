@@ -17,4 +17,3 @@ do_assessment(control, model, year)
 Wrapper for functions to obtain estimates of population size
 during a simulation
 }
-

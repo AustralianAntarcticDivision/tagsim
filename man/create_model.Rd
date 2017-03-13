@@ -16,4 +16,3 @@ and fishery information
 \details{
 Note tags could be a multi-dimensional array to account for tag movement
 }
-

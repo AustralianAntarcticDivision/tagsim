@@ -4,20 +4,20 @@
 \alias{run_sim}
 \title{Run a simulation model}
 \usage{
-run_sim(control, nsims, save = FALSE, path = NULL, filename = NULL)
+run_sim(control, n_reps, save = FALSE, path = NULL, f_name = NULL)
 }
 \arguments{
 \item{control}{control file}
 
-\item{nsims}{number of simulations}
+\item{n_reps}{number of MCMC replicates}
 
 \item{save}{save the output (default=FALSE)}
 
 \item{path}{path for the output}
 
-\item{filename}{filename for the control file}
+\item{f_name}{filename for the control file (or should this be the file name
+for the output?)}
 }
 \description{
 Run a simulation model
 }
-
