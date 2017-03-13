@@ -13,8 +13,8 @@ Suggests:
     testthat,
     rmarkdown
 Imports:
-    tagr
+    tagr (>= 0.1.0)
 VignetteBuilder: knitr
 LazyData: true
 License: GPL-3
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
