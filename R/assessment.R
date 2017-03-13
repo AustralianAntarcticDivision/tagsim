@@ -10,7 +10,7 @@ do_assessment <- function(control, model, year){
   ## some checks
   ## could calculate the true (stratified) population size
   switch(control[["assess_pars"]]$type,
-    tag = {
+    single_tag = {
     ## Petersen estimate of abundance
       if(year<=2){
         est <- 0

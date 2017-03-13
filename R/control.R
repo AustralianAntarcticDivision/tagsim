@@ -128,7 +128,7 @@ create_model <- function(control){
 #' @export
 create_storage <- function(control, n_reps){
   ##
-  if(control[["assess_pars"]]$type %in% c("tag", "survey")){
+  if(control[["assess_pars"]]$type %in% c("single_tag", "survey")){
     obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
                "est_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
                "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps))
@@ -147,7 +147,7 @@ create_storage <- function(control, n_reps){
 ## not going to be very memory efficient
 store_sim <- function(storage, control, model, sim){
   ##
-  if(control[["assess_pars"]]$type %in% c("tag", "survey")){
+  if(control[["assess_pars"]]$type %in% c("single_tag", "survey")){
     storage$true_N[,sim] <- rowSums(model[["N"]])
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
     storage$catch[,sim] <- rowSums(model[["catch"]])
