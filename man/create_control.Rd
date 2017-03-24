@@ -5,9 +5,8 @@
 \alias{control}
 \title{Create a control file}
 \usage{
-create_control(years, regions, pop_pars, rec_pars = list(type = "constant", mu
-  = 0, s = 1, spat_dist = "uniform"), harvest_pars, tag_pars, fish_pars,
-  move_pars, assess_pars, stoch_rec = TRUE)
+create_control(years, regions, pop_pars, rec_pars, harvest_pars, tag_pars,
+  fish_pars, move_pars, assess_pars, stoch_rec = TRUE)
 }
 \arguments{
 \item{years}{vector of years (integers starting with 1)}
@@ -19,7 +18,10 @@ population size ("initial") and instantaneous natural mortality ("nat_mort")}
 
 \item{rec_pars}{list of recruitment parameters containing the name of the
 mechanism for calculating recruitment ("type"; can be either "constant",
-"logistic", "bevholt" or "ricker") see \code{\link{est_recruits}}, the
+"logistic", "bevholt" or "ricker") 
+Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and K is carrying capacity
+and rk is the number of recruits per unit spawner when B = K
+see \code{\link{est_recruits}}, the
 spatial distribution of the recruitment is assigment with "spat_dist" which
 can be "uniform", "lognormal" or "user" specified
 (see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment
