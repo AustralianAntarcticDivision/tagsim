@@ -105,7 +105,6 @@ create_model <- function(control){
   ## add initial recruitment (not getting used currently)
   init_R[1,] <- control[["rec_area"]] *
     est_recruits(type=control[["rec_pars"]]$type,
-                 N = init_N[1,],
                  rec_pars=control[["rec_pars"]],
                  var=control[["stochastic_rec"]])
   ## initial assessment knows pop size without error ** can change this
