@@ -5,6 +5,7 @@
 #' @param control a control file
 #' @param model a tempory file created by \code{\link{run_sim}}
 #' @param year survey year
+#' @importFrom stats rnorm
 #' @export
 do_assessment <- function(control, model, year){
   ## some checks
