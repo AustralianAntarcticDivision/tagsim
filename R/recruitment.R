@@ -1,14 +1,19 @@
-#' Estimate recruitment
+#' Calculate recrutiment from previous years population
 #'
-#' Estimate recruitment the total annual recruitment
-#' @param type either "constant", "logistic", "bevholt" or "ricker"
-#' @param N_area population by area
-#' @param rec_pars recruitment parameters (from control file)
-#' @param var recruitment variability (default FALSE)
+#' Function returns number of recruits given last year's population size
+#' carrying capacity K, natural survivorship S and resilience r.
+#' rk is the number of recruits per unit spawner when B = K.
+#' var controls whether the recruitment is stochastic
+#' (var = F is used when calculating recruitment parameters)
+#' @param type recruitment function either "constant", "logistic", "bevholt" (Beverton Holt)
+#' or "ricker". The "lognorm" method is independent of population size
+#' @param rec_pars list of recruitment parameters
+#' @param var is recruitment stochastic (default=FALSE)
+#' @importFrom stats rlnorm
 #' @export
-est_recruits <- function(type, N_area, rec_pars, var=FALSE){
+est_recruits <- function(type, rec_pars, var=FALSE){
   ## add some checks
-  N <- sum(N_area)
+  N <- rec_pars[["initial"]]
   ## calculate recruitment based on type
   switch(type,
          constant = recruits <- rec_pars[["initial"]],
