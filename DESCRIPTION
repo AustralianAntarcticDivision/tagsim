@@ -13,7 +13,7 @@ Suggests:
     testthat,
     rmarkdown
 Imports:
-    tagr (>= 0.1.0)
+    tagr (>= 0.0.15)
 VignetteBuilder: knitr
 LazyData: true
 License: GPL-3
