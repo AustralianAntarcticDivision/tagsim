@@ -1,17 +1,10 @@
 #' Run a simulation model
 #'
-#' Run a simulation model
 #' @param control control file
 #' @param n_reps number of MCMC replicates
-#' @param save save the output (default=FALSE)
-#' @param path path for the output
-#' @param f_name filename for the control file (or should this be the file name
-#' for the output?)
+#' @importFrom stats rbinom
 #' @export
-#' @examples
-#' # add example here
-#' 1+2
-run_sim <- function(control, n_reps, save=FALSE, path=NULL, f_name=NULL){
+run_sim <- function(control, n_reps){
   ## storage for the final results (do we want this by region?)
   storage <- create_storage(control, n_reps)
   ## loop over the simulations
@@ -26,10 +19,9 @@ run_sim <- function(control, n_reps, save=FALSE, path=NULL, f_name=NULL){
       temp_N <- + model$N[y-1,]
       # zero until tags released, however, doesn't cause problems
       temp_tags <- model$tags[y-1,]
-      #' 1.2 Estimate recruitment from last season numbers (there is no growth)
+      # 1.2 Estimate recruitment from last season numbers (there is no growth)
       pop_size <- temp_N + temp_tags
       rec <- est_recruits(type=control[["rec_pars"]]$type,
-                          N = pop_size,
                           rec_pars=control[["rec_pars"]],
                           var=control[["stochastic_rec"]])
       ## assign it to areas (this can be replaced with a function)
@@ -37,7 +29,7 @@ run_sim <- function(control, n_reps, save=FALSE, path=NULL, f_name=NULL){
       ## 1.2.1 Move untagged & tagged population
       temp_N   <- ceiling(move_N(temp_N, control[["movement"]]))
       temp_tags <- ceiling(move_N(temp_tags, control[["movement"]]))
-      #' 1.3.1 add the recrutiment (recruits don't move) consider saving this
+      # 1.3.1 add the recrutiment (recruits don't move) consider saving this
       temp_N <- temp_N + rec_area
       ## total population
       ## 2 Harvest and natural mortality
