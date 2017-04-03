@@ -4,12 +4,14 @@
 \alias{run_sim}
 \title{Run a simulation model}
 \usage{
-run_sim(control, n_reps)
+run_sim(control, n_reps, run_assessment)
 }
 \arguments{
 \item{control}{control file}
 
 \item{n_reps}{number of MCMC replicates}
+
+\item{run_assessment}{TRUE if you want the simulation to estimate biomass and FALSE if estimates are not required}
 }
 \description{
 Run a simulation model
