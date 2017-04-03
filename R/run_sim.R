@@ -2,9 +2,10 @@
 #'
 #' @param control control file
 #' @param n_reps number of MCMC replicates
+#' @param run_assessment TRUE if you want the simulation to estimate biomass and FALSE if estimates are not required
 #' @importFrom stats rbinom
 #' @export
-run_sim <- function(control, n_reps){
+run_sim <- function(control, n_reps, run_assessment){
   ## storage for the final results (do we want this by region?)
   storage <- create_storage(control, n_reps)
   ## loop over the simulations
@@ -21,7 +22,7 @@ run_sim <- function(control, n_reps){
       temp_tags <- model$tags[y-1,]
       # 1.2 Estimate recruitment from last season numbers (there is no growth)
       pop_size <- temp_N + temp_tags
-      rec <- est_recruits(type=control[["rec_pars"]]$type,
+      rec <-est_recruits(type=control[["rec_pars"]]$type,
                           rec_pars=control[["rec_pars"]],
                           var=control[["stochastic_rec"]])
       ## assign it to areas (this can be replaced with a function)
@@ -70,20 +71,21 @@ run_sim <- function(control, n_reps){
           recaps_by_area[k] <- rbinom(n=1, size=round(catch_by_area[k]),
                                       prob=rprob_by_area[k])
         }
-        ## then remove them restricting to max number of tags
-        recaps_by_area <- pmin(recaps_by_area, temp_tags)
+        # ## then remove them restricting to max number of tags 
+        # recaps_by_area <- pmin(recaps_by_area, temp_tags)
         ## add these back to the untagged population
         temp_N <- temp_N + recaps_by_area
         temp_tags <- temp_tags - recaps_by_area
         ###*** release tags make this stochastic
-        tag_releases <- round(catch_by_area * control[["tag_pars"]]$rel_rate *
-                                exp(-control[["tag_pars"]]$mort))
+        tag_releases <- round(catch_by_area * control[["tag_pars"]]$rel_rate)
         ## apply natural mortality to untagged population
         ##cat("before final_N ", temp_N, "\n")
         final_N <- temp_N * exp(-control[["pop_pars"]]$nat_mort)
         ##cat("final_N ", final_N, "\n")
-        ## apply natural mortality to tagged population
+        ## apply natural mortality to the tagged population as a bernoulli trial
+        ## note that tag shedding and tag mortality is not being applied here  
         final_tags <- rep(0, control[["n_regions"]])
+        
         for(m in 1:control[["n_regions"]]){
           final_tags[m] <- rbinom(n=1, size=temp_tags[m],
                                   prob=exp(-control[["pop_pars"]]$nat_mort))
@@ -99,6 +101,7 @@ run_sim <- function(control, n_reps){
       model$recruits[y,] <- rec_area
       ## do the assessment
       ## 4 Estimate abundance and store the result
+      if (run_assessment==TRUE){
       temp_abund <- do_assessment(control, model, year=y)
       ## implement this properly
       if(sum(temp_abund) == 0){
@@ -108,8 +111,14 @@ run_sim <- function(control, n_reps){
       }
       ## add the abundance estimates
       model$abund_est[y,] <- final_abund
+      # note that the model matrix stores estimates by years = rows and areas = cols
+      }else{
+        
+      model$abund_est[y,] <- 0
+      }
     }
     storage <- store_sim(storage, control, model, sim=i)
+    # all that is currently stored is a rowsum across areas for the true N, estimated N and catch for each year of the sim 
   }
   ## return the storage
   storage
