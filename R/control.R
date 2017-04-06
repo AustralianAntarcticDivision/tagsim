@@ -9,7 +9,7 @@
 #' population size ("initial") and instantaneous natural mortality ("nat_mort")
 #' @param rec_pars list of recruitment parameters containing the name of the
 #' mechanism for calculating recruitment ("type"; can be either "constant",
-#' "logistic", "bevholt" or "ricker") 
+#' "logistic", "bevholt" or "ricker")
 #' Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and K is carrying capacity
 #' and rk is the number of recruits per unit spawner when B = K
 #' see \code{\link{est_recruits}}, the
@@ -111,6 +111,7 @@ create_model <- function(control){
   init_A[1,] <- init_N[1,]
   ## create the object
   obj <- list("N" = init_N,
+              "mid_season_N" = matrix(0, control[["n_years"]], control[["n_regions"]]),z
               "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
               "tags_available" =  matrix(0,control[["n_years"]],control[["n_regions"]]),
               "recaps" = matrix(0,control[["n_years"]],control[["n_regions"]]),
@@ -136,7 +137,7 @@ create_storage <- function(control, n_reps){
                "catch" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "tags"= matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "N_releases"=matrix(0,nrow=control[["n_years"]], ncol=n_reps),
-               "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps), 
+               "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps),
                "tags_available"=matrix(0,nrow=control[["n_years"]],ncol=n_reps))
   ## return the object
   return(obj)
