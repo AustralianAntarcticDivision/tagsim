@@ -92,9 +92,9 @@ check_control <- function(control){
 #' @export
 create_model <- function(control){
   ## create storage for the
-  init_N <- matrix(0, control[["n_years"]] + 1, control[["n_regions"]])
-  init_R <- matrix(0, control[["n_years"]] + 1, control[["n_regions"]])
-  init_A <- matrix(0, control[["n_years"]] +1 , control[["n_regions"]])
+  init_N <- matrix(0, control[["n_years"]], control[["n_regions"]])
+  init_R <- matrix(0, control[["n_years"]], control[["n_regions"]])
+  init_A <- matrix(0, control[["n_years"]], control[["n_regions"]])
   ## fill year zero
   if(control[["stochastic_rec"]]){
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
@@ -102,19 +102,20 @@ create_model <- function(control){
   }else{
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
   }
-  ## add initial recruitment (not getting used currently)
-  init_R[1,] <- control[["rec_area"]] *
-    est_recruits(type=control[["rec_pars"]]$type,
-                 rec_pars=control[["rec_pars"]],
-                 var=control[["stochastic_rec"]])
+  ## add initial recruitment (not getting used currently) - remove as it is getting used
+  # init_R[1,] <- control[["rec_area"]] *
+  #   est_recruits(type=control[["rec_pars"]]$type,
+  #                rec_pars=control[["rec_pars"]],
+  #                var=control[["stochastic_rec"]])
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object
   obj <- list("N" = init_N,
-              "tags" =  matrix(0,control[["n_years"]] + 1,control[["n_regions"]]),
-              "recaps" = matrix(0,control[["n_years"]] + 1,control[["n_regions"]]),
+              "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "tags_available" =  matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "recaps" = matrix(0,control[["n_years"]],control[["n_regions"]]),
               "recruits" = init_R,
-              "catch" = matrix(0,control[["n_years"]] + 1,control[["n_regions"]]),
+              "catch" = matrix(0,control[["n_years"]],control[["n_regions"]]),
               "abund_est" = init_A
   )
   ## return the object
@@ -130,15 +131,19 @@ create_model <- function(control){
 create_storage <- function(control, n_reps){
   ##
   if(control[["assess_pars"]]$type %in% c("single_tag", "survey","multi_tag")){
-    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
-               "est_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
-               "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps))
+    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
+               "est_N" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
+               "catch" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
+               "tags"= matrix(0, nrow=control[["n_years"]], ncol=n_reps),
+               "N_releases"=matrix(0,nrow=control[["n_years"]], ncol=n_reps),
+               "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps), 
+               "tags_available"=matrix(0,nrow=control[["n_years"]],ncol=n_reps))
   ## return the object
   return(obj)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
-    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
-               "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
-               "effort" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps)
+    obj<- list("true_N" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
+               "catch" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
+               "effort" = matrix(0, nrow=control[["n_years"]], ncol=n_reps)
                )
     ## return the object
     return(obj)
@@ -152,6 +157,9 @@ store_sim <- function(storage, control, model, sim){
     storage$true_N[,sim] <- rowSums(model[["N"]])
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
     storage$catch[,sim] <- rowSums(model[["catch"]])
+    storage$N_recaps[,sim]<-rowSums(model[["recaps"]])
+    storage$N_releases[,sim]<-rowSums(model[["releases"]])
+    storage$tags_available[,sim]<-rowSums(model[["tags_available"]])
     ## return the object
     return(storage)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
