@@ -111,7 +111,7 @@ create_model <- function(control){
   init_A[1,] <- init_N[1,]
   ## create the object
   obj <- list("N" = init_N,
-              "mid_season_N" = matrix(0, control[["n_years"]], control[["n_regions"]]),z
+              "mid_season_N" = matrix(0, control[["n_years"]], control[["n_regions"]]),
               "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
               "tags_available" =  matrix(0,control[["n_years"]],control[["n_regions"]]),
               "recaps" = matrix(0,control[["n_years"]],control[["n_regions"]]),
