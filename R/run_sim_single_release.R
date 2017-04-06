@@ -83,7 +83,7 @@ run_sim_single_release <- function(control, n_reps, run_assessment){
         for(k in 1:control$n_regions){
           recaps_by_area[k] <- rbinom(n=1, size=round(catch_by_area[k]),
                                       prob=rprob_by_area[k])
-          recaps_by_area[is.na(k)]<-0
+          recaps_by_area[is.na(recaps_by_area[k])]<-0
         }
       }
       #if(any(prob_recap < 0 | prob_recap > 1))
