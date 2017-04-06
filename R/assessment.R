@@ -17,7 +17,7 @@ do_assessment <- function(control, model, year){
            if(year==1){
              est <- 0
            }else{
-             est <- tagr::single_release(tags = sum(model$tags[year-1,]),
+             est <- tagr::single_release(tags = sum(model$releases[year-1,]),
                                          catch = round(sum(model$catch[year,])),
                                          recaps = sum(model$recaps[year,]),
                                          method = "Petersen",
@@ -27,14 +27,14 @@ do_assessment <- function(control, model, year){
                                          reporting = control[["tag_pars"]]$report,
                                          nat_mort = control[["pop_pars"]]$nat_mort,
                                          chronic_shed = control[["tag_pars"]]$shed)
-             
+
            }
          },
          multi_tag = {
            if(year==1){
              est <- 0
            }else{
-             est <- tagr::multi_release(tags = sum(model$tags[year-1,]),
+             est <- tagr::multi_release(tags = sum(model$releases[year-1,]),
                                         catch = round(sum(model$catch[year,])),
                                         recaps = sum(model$recaps[year,]),
                                         method = "Petersen",
@@ -44,7 +44,6 @@ do_assessment <- function(control, model, year){
                                         reporting = control[["tag_pars"]]$report,
                                         nat_mort = control[["pop_pars"]]$nat_mort,
                                         chronic_shed = control[["tag_pars"]]$shed)
-             
            }
          }
          ,
@@ -68,9 +67,9 @@ do_assessment <- function(control, model, year){
          }
   )
   ## if a single estimate
-  if(length(est)==1){
-    est <- rep(est / control[["n_regions"]], control[["n_regions"]])
-  }
+  # if(length(est)==1){
+  #   est <- rep(est / control[["n_regions"]])
+  # }
   ## return the estimate
   est
 }
