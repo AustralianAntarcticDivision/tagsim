@@ -11,7 +11,7 @@
 #' @param var is recruitment stochastic (default=FALSE)
 #' @importFrom stats rlnorm
 #' @export
-est_recruits <- function(type, rec_pars, var=FALSE){
+est_recruits <- function(type, rec_pars, var){
   ## add some checks
   N <- rec_pars[["initial"]]
   ## calculate recruitment based on type
@@ -35,7 +35,7 @@ est_recruits <- function(type, rec_pars, var=FALSE){
   ## prevent negative recruitment
   recruits <- ifelse(recruits>0, recruits, 0)
   ## Include variability when required
-  if(var) {
+  if(var=="stochastic") {
     recruits <- recruits * rlnorm(1,rec_pars[["mu"]],rec_pars[["s"]])
   }
   ## return the recruits

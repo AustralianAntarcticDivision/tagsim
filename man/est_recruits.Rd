@@ -4,7 +4,7 @@
 \alias{est_recruits}
 \title{Calculate recrutiment from previous years population}
 \usage{
-est_recruits(type, rec_pars, var = FALSE)
+est_recruits(type, rec_pars, var)
 }
 \arguments{
 \item{type}{recruitment function either "constant", "logistic", "bevholt" (Beverton Holt)
