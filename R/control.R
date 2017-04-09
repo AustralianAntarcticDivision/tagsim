@@ -9,7 +9,7 @@
 #' population size ("initial") and instantaneous natural mortality ("nat_mort")
 #' @param rec_pars list of recruitment parameters containing the name of the
 #' mechanism for calculating recruitment ("type"; can be either "constant",
-#' "logistic", "bevholt" or "ricker") 
+#' "logistic", "bevholt" or "ricker","variation"; can be "stochastic" or "none") 
 #' Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and K is carrying capacity
 #' and rk is the number of recruits per unit spawner when B = K
 #' see \code{\link{est_recruits}}, the
@@ -39,8 +39,7 @@ create_control <- function(years,
                            tag_pars,
                            fish_pars,
                            move_pars,
-                           assess_pars,
-                           stoch_rec = TRUE){
+                           assess_pars){
   ## add additional error checking
   ## create list object
   control <- list("years" = years,
@@ -54,7 +53,6 @@ create_control <- function(years,
                   "assess_pars" = assess_pars,
                   "n_years" = length(years),
                   "n_regions" = length(regions),
-                  "stochastic_rec" = stoch_rec,
                   ## define the movement matrix
                   "movement" = move_matrix(method=move_pars$type,
                                            n_rows=sqrt(length(regions)),
@@ -65,7 +63,7 @@ create_control <- function(years,
                   "rec_area" = recruit_area(method=rec_pars["spat_dist"],
                                             n_areas=length(regions),
                                             user_props=rec_pars[["user_prop"]])
-                  )
+  )
   ## add a class
   class(control) <- "control"
   ## return the control file
@@ -96,21 +94,22 @@ create_model <- function(control){
   init_R <- matrix(0, control[["n_years"]], control[["n_regions"]])
   init_A <- matrix(0, control[["n_years"]], control[["n_regions"]])
   ## fill year zero
-  if(control[["stochastic_rec"]]){
+  if(control[["rec_pars"]]$variation=="stochastic"){
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
-                  rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
+      rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
   }else{
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
   }
-  ## add initial recruitment (not getting used currently) - remove as it is getting used
-  # init_R[1,] <- control[["rec_area"]] *
-  #   est_recruits(type=control[["rec_pars"]]$type,
-  #                rec_pars=control[["rec_pars"]],
-  #                var=control[["stochastic_rec"]])
+  ## add initial recruitment (not getting used currently) - remove as it is getting used already
+  init_R[1,] <- control[["rec_area"]] *
+    est_recruits(type=control[["rec_pars"]]$type,
+                 rec_pars=control[["rec_pars"]],
+                 var=control[["rec_pars"]]$variation)
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object
-  obj <- list("N" = init_N,
+  obj <- list("N_end_season" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "N_true" = init_N,
               "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
               "tags_available" =  matrix(0,control[["n_years"]],control[["n_regions"]]),
               "recaps" = matrix(0,control[["n_years"]],control[["n_regions"]]),
@@ -138,13 +137,13 @@ create_storage <- function(control, n_reps){
                "N_releases"=matrix(0,nrow=control[["n_years"]], ncol=n_reps),
                "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps), 
                "tags_available"=matrix(0,nrow=control[["n_years"]],ncol=n_reps))
-  ## return the object
-  return(obj)
+    ## return the object
+    return(obj)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
     obj<- list("true_N" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "catch" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "effort" = matrix(0, nrow=control[["n_years"]], ncol=n_reps)
-               )
+    )
     ## return the object
     return(obj)
   }else stop("storage method not defined")
@@ -154,7 +153,7 @@ create_storage <- function(control, n_reps){
 store_sim <- function(storage, control, model, sim){
   ##
   if(control[["assess_pars"]]$type %in% c("single_tag", "survey","multi_tag")){
-    storage$true_N[,sim] <- rowSums(model[["N"]])
+    storage$true_N[,sim] <- rowSums(model[["N_true"]])
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
     storage$catch[,sim] <- rowSums(model[["catch"]])
     storage$N_recaps[,sim]<-rowSums(model[["recaps"]])
