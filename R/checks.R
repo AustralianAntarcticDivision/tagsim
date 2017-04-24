@@ -43,6 +43,16 @@ check_mrelease_inputs <- function(tags, hauls, pars){
   ## define the check variable
   check <- TRUE
   ## add checks
+  ## check the tag data first
+  ## check each row of releases is < total recaptures
+  # for(i in 1:nrow(tags)){
+  #   if(tags[i, 1] < sum(tags[i, 2:ncol(tags)]))
+  #     warning(paste0("More tags have been recaptured than were released in year", i))
+  #   check <- FALSE
+  # }
+  ## check recaptures in the haul data matches the tag data
+  
+  
   ## return check
   check
 }
