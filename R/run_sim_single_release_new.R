@@ -5,7 +5,7 @@
 #' @param run_assessment TRUE if you want the simulation to estimate biomass and FALSE if estimates are not required
 #' @importFrom stats rbinom
 #' @export
-run_sim_single_release <- function(control, n_reps, run_assessment){
+run_sim_single_release_new <- function(control, n_reps, run_assessment){
   ## storage for the final results (do we want this by region?)
   storage <- create_storage(control, n_reps)
   ## loop over the simulations
