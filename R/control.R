@@ -9,7 +9,7 @@
 #' population size ("initial") and instantaneous natural mortality ("nat_mort")
 #' @param rec_pars list of recruitment parameters containing the name of the
 #' mechanism for calculating recruitment ("type"; can be either "constant",
-#' "logistic", "bevholt" or "ricker","variation"; can be "stochastic" or "none") 
+#' "logistic", "bevholt" or "ricker") and ("variation"; can be "stochastic" or "none") 
 #' Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and K is carrying capacity
 #' and rk is the number of recruits per unit spawner when B = K
 #' see \code{\link{est_recruits}}, the
