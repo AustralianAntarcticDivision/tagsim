@@ -121,6 +121,50 @@ create_model <- function(control){
   return(obj)
 }
 
+#' Create a multiple release model object
+#'
+#' Create a list of arrays of the appropriate dimensions for storing population
+#' and fishery information
+#' Note tags could be a multi-dimensional array to account for tag movement
+#' @param control a control file
+#' @export
+create_model_multi_release <- function(control){
+  ## create storage for the
+  init_N <- matrix(0, control[["n_years"]], control[["n_regions"]])
+  init_R <- matrix(0, control[["n_years"]], control[["n_regions"]])
+  init_A <- matrix(0, control[["n_years"]], control[["n_regions"]])
+  ## fill year zero
+  if(control[["rec_pars"]]$variation=="stochastic"){
+    init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
+      rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
+  }else{
+    init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
+  }
+  ## add initial recruitment (not getting used currently) - remove as it is getting used already
+  init_R[1,] <- control[["rec_area"]] *
+    est_recruits(type=control[["rec_pars"]]$type,
+                 rec_pars=control[["rec_pars"]],
+                 var=control[["rec_pars"]]$variation)
+  ## initial assessment knows pop size without error ** can change this
+  init_A[1,] <- init_N[1,]
+  ## create the object
+  obj <- list("N_end_season" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "N_true" = init_N,
+              "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+              # for multi year release and recapture store rows as yr of release and cols as yr of recapture
+              "tags_available" =  matrix(0,control[["n_years"]],control[["n_years"]]),
+              "recaps" = matrix(0,control[["n_years"]],control[["n_years"]]),
+              # create a seperate storage variable for total tags available and recaptures for a given year
+              "tags_available_store" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "recaps_store"= matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "recruits" = init_R,
+              "catch" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+              "abund_est" = init_A
+  )
+  ## return the object
+  return(obj)
+}
+
 #' Create an object to store simulation results
 #'
 #' Create an object to store simulation results
@@ -152,13 +196,22 @@ create_storage <- function(control, n_reps){
 ## not going to be very memory efficient
 store_sim <- function(storage, control, model, sim){
   ##
-  if(control[["assess_pars"]]$type %in% c("single_tag", "survey","multi_tag")){
+  if(control[["assess_pars"]]$type %in% c("single_tag", "survey")){
     storage$true_N[,sim] <- rowSums(model[["N_true"]])
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
     storage$catch[,sim] <- rowSums(model[["catch"]])
     storage$N_recaps[,sim]<-rowSums(model[["recaps"]])
     storage$N_releases[,sim]<-rowSums(model[["releases"]])
     storage$tags_available[,sim]<-rowSums(model[["tags_available"]])
+    ## return the object
+    return(storage)
+  }else if (control[["assess_pars"]]$type %in% c("multi_tag")){
+    storage$true_N[,sim] <- rowSums(model[["N_true"]])
+    storage$est_N[,sim] <- rowSums(model[["abund_est"]])
+    storage$catch[,sim] <- rowSums(model[["catch"]])
+    storage$N_recaps[,sim]<-rowSums(model[["recaps_store"]])
+    storage$N_releases[,sim]<-rowSums(model[["releases"]])
+    storage$tags_available[,sim]<-rowSums(model[["tags_available_store"]])
     ## return the object
     return(storage)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
