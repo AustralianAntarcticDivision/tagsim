@@ -6,7 +6,7 @@
 \title{Create a control file}
 \usage{
 create_control(years, regions, pop_pars, rec_pars, harvest_pars, tag_pars,
-  fish_pars, move_pars, assess_pars, stoch_rec = TRUE)
+  fish_pars, move_pars, assess_pars)
 }
 \arguments{
 \item{years}{vector of years (integers starting with 1)}
@@ -18,7 +18,7 @@ population size ("initial") and instantaneous natural mortality ("nat_mort")}
 
 \item{rec_pars}{list of recruitment parameters containing the name of the
 mechanism for calculating recruitment ("type"; can be either "constant",
-"logistic", "bevholt" or "ricker") 
+"logistic", "bevholt" or "ricker","variation"; can be "stochastic" or "none") 
 Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and K is carrying capacity
 and rk is the number of recruits per unit spawner when B = K
 see \code{\link{est_recruits}}, the
