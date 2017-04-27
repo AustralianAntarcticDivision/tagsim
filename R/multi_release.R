@@ -71,12 +71,18 @@ multi_release <- function(tags, hauls, pars)  { # will perhaps add hauls
   # ## check the parameters
   # check_pars <- check_mrelease_pars(pars)
   ## the checks will identify any problems with the inputs
+  # if(is.null(nrow(tags))){
+  # rels <- tags[1]
+  # recs <- tags[-1]
+  # 
+  # }else{
   rels <- tags[,1]
   ## this needs to be safer
   recs <- tags[,-1]
+  # }
   ## we'll assume all of the checks have been done
   ## create a matrix to store the available tags at the end of each year
-  avail_tags <- matrix(NA, nrow=nrow(recs), ncol=ncol(recs)-1)
+  avail_tags <- matrix(NA, nrow=nrow(recs), ncol=ncol(recs))
   ## calculate the available tags based on Ricker fishery type
   if(pars[["type"]] == 1){
     ## calculate the available tags for each cohort (row)
@@ -148,22 +154,30 @@ multi_release <- function(tags, hauls, pars)  { # will perhaps add hauls
       }
     }
   }else stop("either Ricker type 1 or type 2 fishery must be specified")
-  ## extract the available tags in current year
-  current_tags <- avail_tags[,ncol(avail_tags)]
+  ## extract the available tags from the previous season - might want to change name given its 
+  # no longer current tags but tags available the previous season
+  current_tags <- avail_tags[,ncol(avail_tags)-1]
+  # remove NA values
+  current_tags <- current_tags[!is.na(current_tags)]
   ## now estimate population size from the available tags by year 
-  n_years <- ncol(hauls)-1
-  ## adjust the recaptures by cohort by reporting rate in the last year
-  recap_cohort <- colSums(hauls[,-1]) / pars[["reporting"]][n_years]
+  # n_years <- ncol(hauls)-1
+  n_years <- length(hauls)
+  ## adjust the recaptures by cohort and reporting rate in the last year
+  # recapture cohort is being stored in matrix not haul data 
+  # recap_cohort <- colSums(hauls[,-1]) / pars[["reporting"]][n_years]
+  recap_cohort <- recs[,ncol(recs)]/ pars[["reporting"]][1:n_years]
   ## catch (numbers or weight) is the first column of hauls, includes tagged + untagged
-  catch <- sum(hauls[,1])
+  # catch <- sum(hauls[,1])
+  catch <- hauls[length(hauls)]
   ## define storage for the cohort estimates
-  cohort_est <- rep(NA, ncol(hauls)-1)
+  # cohort_est <- rep(NA, ncol(hauls)-1)
+  cohort_est <- rep(NA, length(hauls))
   ## then calculate population size based on the method 
-  if(pars[["method"]]=="Petersen"){
+  if(pars[["method"]]=="Petersen"& pars[["unit"]] %in% c("numbers")){
     ## Petersen population estimate overall and by cohort
     est <- petersen(sum(current_tags), catch, sum(recap_cohort), 
                     check_type="mrelease")[["N_hat"]]
-    for(i in 1:nrow(recs)){
+    for(i in 1:length(current_tags)){
       cohort_est[i] <- petersen(current_tags[i], catch, recap_cohort[i],
                                 check_type="mrelease")[["N_hat"]]
     }
