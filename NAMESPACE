@@ -26,16 +26,11 @@ export(multi_release)
 export(petersen)
 export(recruit_area)
 export(run_sim)
-<<<<<<< HEAD
 export(run_sim_lucy)
 export(run_sim_multi_release)
 export(run_sim_single_release_new)
 export(run_sim_single_release_old)
 export(single_release)
-=======
-export(run_sim_single_release)
-import(tagr)
->>>>>>> 87edd854213c8121a2404a19800ded37c65a801c
 importFrom(stats,rbinom)
 importFrom(stats,rlnorm)
 importFrom(stats,rnorm)
