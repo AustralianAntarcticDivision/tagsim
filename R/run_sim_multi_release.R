@@ -29,19 +29,32 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
       # tags available is a matrix in control file that in n x n where n = years of the survey 
       avail_tags <- model$tags_available
       
-      # 1.2 Estimate recruitment
-      rec <-est_recruits(type=control[["rec_pars"]]$type,
-                         rec_pars=control[["rec_pars"]],
-                         var=control[["rec_pars"]]$variation)
-      ## assign it to areas (this can be replaced with a function)
-      rec_area <- ceiling(rec * control$rec_area)
-      
-      ## 1.2 Move untagged  and tagged population 
-      temp_untagged   <- ceiling(move_N(temp_untagged, control[["movement"]]))
-      # 1.3 add the recrutiment (recruits don't move) 
-      temp_untagged <- temp_untagged + rec_area
       # 1.4 apply all natural mortality 
       temp_untagged <- temp_untagged* exp(-control[["pop_pars"]]$nat_mort)
+ 
+      
+      # 1.2 Estimate recruitment
+      if(y==1){
+        rec <-est_recruits(type=control[["rec_pars"]]$type,
+                           rec_pars=control[["rec_pars"]],
+                           var=control[["rec_pars"]]$variation)}
+      else{
+        # replace individuals taken out as recruits
+        # rec <- model$N_true[y-1]*log(exp(control[["pop_pars"]]$nat_mort)) 
+        rec <- model$N_true[y-1]-temp_untagged
+      }
+      
+
+      ## 1.2 Move untagged  and tagged population 
+      # temp_untagged   <- ceiling(move_N(temp_untagged, control[["movement"]]))
+      temp_untagged   <- move_N(temp_untagged, control[["movement"]])
+      
+      ## assign it to areas (this can be replaced with a function)
+      # rec_area <- ceiling(rec * control$rec_area)
+      rec_area <- rec * control$rec_area
+      
+      # 1.3 add the recrutiment (recruits don't move)
+      temp_untagged <- temp_untagged + rec_area
       
       ## store true total population to be compared with assessment estimates  
       final_N <- temp_untagged
@@ -91,6 +104,7 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
                                   prob=rprob_by_yr[k])
       }
       
+      if(any(is.infinite(rprob_by_yr))) stop("Inf recapture or probability of recapture")
       # 2.6 in the first year remove catch from the untagged population and add releasese to the tagged population 
       # and add tagged and untagged to get a total end of season population 
       # from year 2 onwards recaptures are added back into the untagged population and removed from the tagged 
@@ -122,7 +136,7 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
         ## remove recaptures scaled for reporting rate (could improve)
         temp_tags <- temp_tags - (recaps_by_yr[y] / control[["tag_pars"]]$reporting[y])
         ## apply natural mortality etc
-        avail_tags[y,1] <- temp_tags*exp(-control[["pop_pars"]]$nat_mort
+        avail_tags[y,1] <- temp_tags*exp(-control[["tag_pars"]]$nat_mort[y]
                                          -control[["tag_pars"]]$chronic_shed[y]
                                          -control[["tag_pars"]]$chronic_mort[y])
       }else{
@@ -134,18 +148,18 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
             ## repeat the removals above
             temp_tags_discount <- temp_tags[j] - (recaps_by_yr[j] / control[["tag_pars"]]$reporting[y])
             ## apply natural mortality etc
-            avail_tags[j,y] <- temp_tags_discount*exp(-control[["pop_pars"]]$nat_mort
-                                             -control[["tag_pars"]]$chronic_shed[y]
-                                             -control[["tag_pars"]]$chronic_mort[y])
+            avail_tags[j,y] <- temp_tags_discount*exp(-control[["tag_pars"]]$nat_mort[y]
+                                                      -control[["tag_pars"]]$chronic_shed[y]
+                                                      -control[["tag_pars"]]$chronic_mort[y])
           }else if(j==y){
             ## tag-induced mortality is applied in the release year only
             temp_tags_discount <- tag_releases * exp(-control[["tag_pars"]]$tag_mort[y])
             ## remove recaptures scaled for reporting rate (could improve)
             temp_tags_discount <- temp_tags_discount - (recaps_by_yr[y] / control[["tag_pars"]]$reporting[y])
             ## apply natural mortality etc
-            avail_tags[j,y] <- temp_tags_discount*exp(-control[["pop_pars"]]$nat_mort
-                                             -control[["tag_pars"]]$chronic_shed[y]
-                                             -control[["tag_pars"]]$chronic_mort[y])
+            avail_tags[j,y] <- temp_tags_discount*exp(-control[["tag_pars"]]$nat_mort[y]
+                                                      -control[["tag_pars"]]$chronic_shed[y]
+                                                      -control[["tag_pars"]]$chronic_mort[y])
           }else if(j>y){
             
             # do nothing   
