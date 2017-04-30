@@ -173,34 +173,42 @@ multi_release <- function(tags, hauls, pars)  { # will perhaps add hauls
   # cohort_est <- rep(NA, ncol(hauls)-1)
   cohort_est <- rep(NA, length(hauls))
   ## then calculate population size based on the method 
-  if(pars[["method"]]=="Petersen"& pars[["unit"]] %in% c("numbers")){
-    ## Petersen population estimate overall and by cohort
-    est <- petersen(sum(current_tags), catch, sum(recap_cohort), 
-                    check_type="mrelease")[["N_hat"]]
-    for(i in 1:length(current_tags)){
-      cohort_est[i] <- petersen(current_tags[i], catch, recap_cohort[i],
-                                check_type="mrelease")[["N_hat"]]
-    }
-  }else if(pars[["method"]]=="Chapman" & pars[["unit"]] %in% c("numbers")){
-    ## Chapman population estimate overall and by cohort
-    est <- chapman_n(sum(current_tags), catch, sum(recap_cohort),
-                     check_type="mrelease")[["N_hat"]]
-    for(i in 1:nrow(recs)){
-      cohort_est[i] <- chapman_n(current_tags[i], catch, recap_cohort[i],
-                                 check_type="mrelease")[["N_hat"]]
-    }
-  }else if(pars[["method"]]=="Chapman" & pars[["unit"]] %in% c("kg", "tonnes")){
-    ## Chapman weight
-    est <- chapman_wt(sum(current_tags), catch, 
-                      sum(recap_cohort),pars[["mean_wt"]],
+  if(sum(recap_cohort)==0){
+    ## if there are no recaptures we don't estimate population size
+    N_hat=NA
+    var_N=NA
+    est<- c(N_hat,var_N)
+    names(est)<-c("N_hat","var_N")
+  }else{
+    if(pars[["method"]]=="Petersen"& pars[["unit"]] %in% c("numbers")){
+      ## Petersen population estimate overall and by cohort
+      est <- petersen(sum(current_tags), catch, sum(recap_cohort), 
                       check_type="mrelease")[["N_hat"]]
-    for(i in 1:nrow(recs)){
-      cohort_est[i] <- chapman_wt(current_tags[i], catch, 
-                                  recap_cohort[i], pars[["mean_wt"]],
+      for(i in 1:length(current_tags)){
+        cohort_est[i] <- petersen(current_tags[i], catch, recap_cohort[i],
                                   check_type="mrelease")[["N_hat"]]
-    }
-  }else stop("method and unit combination not available")
-  ## add names
+      }
+    }else if(pars[["method"]]=="Chapman" & pars[["unit"]] %in% c("numbers")){
+      ## Chapman population estimate overall and by cohort
+      est <- chapman_n(sum(current_tags), catch, sum(recap_cohort),
+                       check_type="mrelease")[["N_hat"]]
+      for(i in 1:nrow(recs)){
+        cohort_est[i] <- chapman_n(current_tags[i], catch, recap_cohort[i],
+                                   check_type="mrelease")[["N_hat"]]
+      }
+    }else if(pars[["method"]]=="Chapman" & pars[["unit"]] %in% c("kg", "tonnes")){
+      ## Chapman weight
+      est <- chapman_wt(sum(current_tags), catch, 
+                        sum(recap_cohort),pars[["mean_wt"]],
+                        check_type="mrelease")[["N_hat"]]
+      for(i in 1:nrow(recs)){
+        cohort_est[i] <- chapman_wt(current_tags[i], catch, 
+                                    recap_cohort[i], pars[["mean_wt"]],
+                                    check_type="mrelease")[["N_hat"]]
+      }
+    }else stop("method and unit combination not available")
+    ## add names
+  }
   names(cohort_est) <- names(recap_cohort)
   names(est) <- "Combined"
   ## then collate the results
@@ -227,8 +235,8 @@ bootstrap.mrelease <- function(x, nboot, ...){
   tags <- x$Tags
   hauls <- x$Hauls
   pars <- x$Pars
-    ## the checks will identify any problems with the inputs
-    rels <- tags[,1]
+  ## the checks will identify any problems with the inputs
+  rels <- tags[,1]
   ## this needs to be safer
   recs <- tags[,-1]
   ## define the number of years
