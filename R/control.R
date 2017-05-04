@@ -20,13 +20,13 @@
 #' @param harvest_pars harvest parameters a list containing "type"
 #' ("const_exploit" = constant exploitation rate, "TAC" = constant catch, ...),
 #' (see \code{\link{calc_catch}})
-#' @param tag_pars list of tag related parameters (release, mort, shed, report)
+#' @param tag_pars list of tag related parameters that reflects the simulated tagged population (mort, shed, report)
 #' @param fish_pars list of parameters relating to the fishing strategy. The
 #' intent is for these to control the spatial dynamics of fishing and for
 #' harvest_pars to determine total catch (see \code{\link{fishing_locs}})
 #' @param move_pars list of movement parameters "type", "prob" (see
 #'  \code{\link{move_matrix}})
-#' @param assess_pars list of assessment parameters (see
+#' @param assess_pars list of assessment parameters that includes a seperate set of tagging parameters (see
 #' \code{\link{do_assessment}})
 #' @param stoch_rec stochasitc recruitment (default=TRUE)
 #' @aliases control
