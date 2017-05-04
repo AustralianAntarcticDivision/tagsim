@@ -21,11 +21,11 @@ do_assessment <- function(control, model, year){
                                    recaps = sum(model$recaps[year,]),
                                    method = "Petersen",
                                    unit = "numbers",
-                                   type = control[["harvest_pars"]]$ricker,
-                                   tag_mort = control[["tag_pars"]]$tag_mort[year],
-                                   reporting = control[["tag_pars"]]$reporting[year],
-                                   nat_mort = control[["tag_pars"]]$nat_mort[year],
-                                   chronic_shed = control[["tag_pars"]]$chronic_shed[year])
+                                   type = control[["assess_pars"]]$type,
+                                   tag_mort = control[["assess_pars"]]$tag_mort[year],
+                                   reporting = control[["assess_pars"]]$reporting[year],
+                                   nat_mort = control[["assess_pars"]]$nat_mort[year],
+                                   chronic_shed = control[["assess_pars"]]$chronic_shed[year])
              
            }
          },
@@ -38,11 +38,11 @@ do_assessment <- function(control, model, year){
                                    recaps = sum(model$recaps[,year]),
                                    method = "Petersen",
                                    unit = "numbers",
-                                   type = control[["harvest_pars"]]$ricker,
-                                   tag_mort = control[["tag_pars"]]$tag_mort[year],
-                                   reporting = control[["tag_pars"]]$reporting[year],
-                                   nat_mort = control[["tag_pars"]]$nat_mort[year],
-                                   chronic_shed = control[["tag_pars"]]$chronic_shed[year])
+                                   type = control[["assess_pars"]]$ricker,
+                                   tag_mort = control[["assess_pars"]]$tag_mort[year],
+                                   reporting = control[["assess_pars"]]$reporting[year],
+                                   nat_mort = control[["assess_pars"]]$nat_mort[year],
+                                   chronic_shed = control[["assess_pars"]]$chronic_shed[year])
 
            }else if (year>2){
              # must reduce the size of the release and recapture matrix to exclude 
@@ -52,7 +52,7 @@ do_assessment <- function(control, model, year){
              # catch from the second year onwards is only relevant too so we remove catch from year 1 
              est <- multi_release(tags = cbind(model$releases,model$recaps)[1:(year-1),1:(year+1)],
                                   hauls = model$catch[2:year],
-                                  pars=control[["tag_pars"]])
+                                  pars=control[["assess_pars"]])
            }
          }
          ,
