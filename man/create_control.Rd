@@ -31,7 +31,7 @@ is determined}
 ("const_exploit" = constant exploitation rate, "TAC" = constant catch, ...),
 (see \code{\link{calc_catch}})}
 
-\item{tag_pars}{list of tag related parameters (release, mort, shed, report)}
+\item{tag_pars}{list of tag related parameters that reflects the simulated tagged population (mort, shed, report)}
 
 \item{fish_pars}{list of parameters relating to the fishing strategy. The
 intent is for these to control the spatial dynamics of fishing and for
@@ -40,7 +40,7 @@ harvest_pars to determine total catch (see \code{\link{fishing_locs}})}
 \item{move_pars}{list of movement parameters "type", "prob" (see
 \code{\link{move_matrix}})}
 
-\item{assess_pars}{list of assessment parameters (see
+\item{assess_pars}{list of assessment parameters that includes a seperate set of tagging parameters (see
 \code{\link{do_assessment}})}
 
 \item{stoch_rec}{stochasitc recruitment (default=TRUE)}
