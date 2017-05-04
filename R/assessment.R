@@ -21,7 +21,7 @@ do_assessment <- function(control, model, year){
                                    recaps = sum(model$recaps[year,]),
                                    method = "Petersen",
                                    unit = "numbers",
-                                   type = control[["assess_pars"]]$type,
+                                   type = control[["assess_pars"]]$ricker,
                                    tag_mort = control[["assess_pars"]]$tag_mort[year],
                                    reporting = control[["assess_pars"]]$reporting[year],
                                    nat_mort = control[["assess_pars"]]$nat_mort[year],

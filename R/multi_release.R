@@ -84,7 +84,7 @@ multi_release <- function(tags, hauls, pars)  { # will perhaps add hauls
   ## create a matrix to store the available tags at the end of each year
   avail_tags <- matrix(NA, nrow=nrow(recs), ncol=ncol(recs))
   ## calculate the available tags based on Ricker fishery type
-  if(pars[["type"]] == 1){
+  if(pars[["ricker"]] == 1){
     ## calculate the available tags for each cohort (row)
     for(i in 1:nrow(avail_tags)){
       ## loop over the years
@@ -115,7 +115,7 @@ multi_release <- function(tags, hauls, pars)  { # will perhaps add hauls
         }
       }
     }
-  }else if(pars[["type"]]==2){
+  }else if(pars[["ricker"]]==2){
     ## calculate the available tags for each cohort (row)
     for(i in 1:nrow(avail_tags)){
       ## loop over the years
@@ -248,7 +248,7 @@ bootstrap.mrelease <- function(x, nboot, ...){
     ## matrix to store the available tags at the end of each year
     avail_tags <- matrix(NA, nrow=nrow(recs), ncol=ncol(recs)-1)
     ## calculate the available tags by fishery type
-    if(pars[["type"]] == 1){
+    if(pars[["ricker"]] == 1){
       ## calculate the available tags for each cohort (row)
       for(i in 1:nrow(avail_tags)){
         ## loop over the years
@@ -285,7 +285,7 @@ bootstrap.mrelease <- function(x, nboot, ...){
           }
         }
       }
-    }else if(pars[["type"]]==2){
+    }else if(pars[["ricker"]]==2){
       stop("Bootstrap for Ricker type 2 fishery is yet to be implemented")
       ## add the type 2 
     }else stop("either Ricker type 1 or type 2 fishery must be specified")
