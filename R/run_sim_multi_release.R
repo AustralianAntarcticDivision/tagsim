@@ -31,7 +31,7 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
       
       # 1.4 apply all natural mortality 
       temp_untagged <- temp_untagged* exp(-control[["pop_pars"]]$nat_mort)
- 
+      
       
       # 1.2 Estimate recruitment
       if(y==1){
@@ -44,7 +44,7 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
         rec <- model$N_true[y-1]-temp_untagged
       }
       
-
+      
       ## 1.2 Move untagged  and tagged population 
       # temp_untagged   <- ceiling(move_N(temp_untagged, control[["movement"]]))
       temp_untagged   <- move_N(temp_untagged, control[["movement"]])
@@ -62,9 +62,12 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
       ## 2 Harvest 
       ## 2.1 extract last seasons abundance estimate
       if(y>2){
-        est_abund <- model$abund_est[y-1,]}else{
-          est_abund <- final_N
-        }
+        switch(control[["assess_pars"]]$pop_est,
+               est = est_abund <- model$abund_est[y-1,],
+               true = est_abund <- final_N) 
+      }else{
+        est_abund <- final_N
+      }
       ## 2.2 caculate catch based on harvest rate/strategy 
       temp_catch <- calc_catch(control, temp_untagged, est_abund)
       ## specify how catch is allocated amoung regions
@@ -92,11 +95,13 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
       recaps_by_yr <- rep(0, control[["n_years"]])
       
       # 2.5.2 calculate the probability of recapture based on available tags from each cohort in
-      # the previous season (for year 1 this is zero)
+      # the previous season (for year 1 this is zero) and the expected number of recaptures 
       if(y==1){
         rprob_by_yr <- avail_tags[,y] / final_N
+        expected_recaps <- 0
       }else{
         rprob_by_yr <- avail_tags[,y-1] / final_N
+        expected_recaps <- sum(avail_tags[,y-1])*control[["harvest_pars"]]$exploit_rate
       }
       
       for(k in 1:length(recaps_by_yr)){
@@ -104,7 +109,7 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
                                   prob=rprob_by_yr[k])
       }
       
-      if(any(is.infinite(rprob_by_yr))) stop("Inf recapture or probability of recapture")
+      if(any(is.infinite(rprob_by_yr))) stop("Inf probability of recapture")
       # 2.6 in the first year remove catch from the untagged population and add releasese to the tagged population 
       # and add tagged and untagged to get a total end of season population 
       # from year 2 onwards recaptures are added back into the untagged population and removed from the tagged 
@@ -180,7 +185,8 @@ run_sim_multi_release <- function(control, n_reps, run_assessment){
       model$recaps[,y] <- recaps_by_yr
       model$recaps_store[y,] <- sum(recaps_by_yr)
       model$catch[y,] <- catch_by_area
-      model$recruits[y,] <- rec_area
+      model$recruits[y,] <- rec
+      model$expected_recaps[y,] <- round(expected_recaps,0)
       ## do the assessment
       ## 5 Estimate abundance and store the result
       if (run_assessment==TRUE & y>=2){
