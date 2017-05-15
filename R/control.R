@@ -159,7 +159,8 @@ create_model_multi_release <- function(control){
               "recaps_store"= matrix(0,control[["n_years"]],control[["n_regions"]]),
               "recruits" = init_R,
               "catch" = matrix(0,control[["n_years"]],control[["n_regions"]]),
-              "abund_est" = init_A
+              "abund_est" = init_A,
+              "expected_recaps"=matrix(0,control[["n_years"]],control[["n_regions"]])
   )
   ## return the object
   return(obj)
@@ -180,7 +181,8 @@ create_storage <- function(control, n_reps){
                "tags"= matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "N_releases"=matrix(0,nrow=control[["n_years"]], ncol=n_reps),
                "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps), 
-               "tags_available"=matrix(0,nrow=control[["n_years"]],ncol=n_reps))
+               "tags_available"=matrix(0,nrow=control[["n_years"]],ncol=n_reps),
+               "expected_recaps"=matrix(0,nrow=control[["n_years"]],ncol=n_reps))
     ## return the object
     return(obj)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
@@ -212,6 +214,7 @@ store_sim <- function(storage, control, model, sim){
     storage$N_recaps[,sim]<-rowSums(model[["recaps_store"]])
     storage$N_releases[,sim]<-rowSums(model[["releases"]])
     storage$tags_available[,sim]<-rowSums(model[["tags_available_store"]])
+    storage$expected_recaps[,sim]<-rowSums(model[["expected_recaps"]])
     ## return the object
     return(storage)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
