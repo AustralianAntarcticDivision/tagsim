@@ -199,7 +199,9 @@ create_storage <- function(control, n_reps){
 store_sim <- function(storage, control, model, sim){
   ##
   if(control[["assess_pars"]]$type %in% c("single_tag", "survey")){
-    storage$true_N[,sim] <- rowSums(model[["N_true"]])
+    if(control[["assess_pars"]]$method=="Chapman"){
+      storage$true_N[,sim] <- rowSums(model[["N_true"]])*control[["assess_pars"]]$mean_wt
+    }else{storage$true_N[,sim] <- rowSums(model[["N_true"]])}
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
     storage$catch[,sim] <- rowSums(model[["catch"]])
     storage$N_recaps[,sim]<-rowSums(model[["recaps"]])
@@ -208,7 +210,9 @@ store_sim <- function(storage, control, model, sim){
     ## return the object
     return(storage)
   }else if (control[["assess_pars"]]$type %in% c("multi_tag")){
-    storage$true_N[,sim] <- rowSums(model[["N_true"]])
+    if(control[["assess_pars"]]$method=="Chapman"){
+      storage$true_N[,sim] <- rowSums(model[["N_true"]])*control[["assess_pars"]]$mean_wt
+    }else{storage$true_N[,sim] <- rowSums(model[["N_true"]])}
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
     storage$catch[,sim] <- rowSums(model[["catch"]])
     storage$N_recaps[,sim]<-rowSums(model[["recaps_store"]])
