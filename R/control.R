@@ -28,7 +28,6 @@
 #'  \code{\link{move_matrix}})
 #' @param assess_pars list of assessment parameters that includes a seperate set of tagging parameters (see
 #' \code{\link{do_assessment}})
-#' @param stoch_rec stochasitc recruitment (default=TRUE)
 #' @aliases control
 #' @export
 create_control <- function(years,
