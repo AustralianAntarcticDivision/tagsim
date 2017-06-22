@@ -42,8 +42,6 @@ harvest_pars to determine total catch (see \code{\link{fishing_locs}})}
 
 \item{assess_pars}{list of assessment parameters that includes a seperate set of tagging parameters (see
 \code{\link{do_assessment}})}
-
-\item{stoch_rec}{stochasitc recruitment (default=TRUE)}
 }
 \description{
 The control file specifies the simulation parameters
