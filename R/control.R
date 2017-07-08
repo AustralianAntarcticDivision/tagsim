@@ -103,8 +103,7 @@ create_model <- function(control){
   ## add initial recruitment (not getting used currently) - remove as it is getting used already
   init_R[1,] <- control[["rec_area"]] *
     est_recruits(type=control[["rec_pars"]]$type,
-                 rec_pars=control[["rec_pars"]],
-                 var=control[["rec_pars"]]$variation)
+                 rec_pars=control[["rec_pars"]])
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object
@@ -143,8 +142,7 @@ create_model_multi_release <- function(control){
   ## add initial recruitment (not getting used currently) - remove as it is getting used already
   init_R[1,] <- control[["rec_area"]] *
     est_recruits(type=control[["rec_pars"]]$type,
-                 rec_pars=control[["rec_pars"]],
-                 var=control[["rec_pars"]]$variation)
+                 rec_pars=control[["rec_pars"]])
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object
