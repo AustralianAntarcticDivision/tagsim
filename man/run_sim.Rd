@@ -2,7 +2,7 @@
 % Please edit documentation in R/run_sim.R
 \name{run_sim}
 \alias{run_sim}
-\title{Run a simulation model}
+\title{Run a tagsim simulation}
 \usage{
 run_sim(control, n_reps, run_assessment)
 }
@@ -11,8 +11,9 @@ run_sim(control, n_reps, run_assessment)
 
 \item{n_reps}{number of MCMC replicates}
 
-\item{run_assessment}{TRUE if you want the simulation to estimate biomass and FALSE if estimates are not required}
+\item{run_assessment}{TRUE if you want the simulation to estimate biomass and
+FALSE if estimates are not required}
 }
 \description{
-Run a simulation model
+Run a tagsim simulation
 }
