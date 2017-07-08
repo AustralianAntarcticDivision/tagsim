@@ -9,10 +9,11 @@
 #' population size ("initial") and instantaneous natural mortality ("nat_mort")
 #' @param rec_pars list of recruitment parameters containing the name of the
 #' mechanism for calculating recruitment ("type"; can be either "constant",
-#' "logistic", "bevholt" or "ricker") and ("variation"; can be "stochastic" or "none") 
-#' Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and K is carrying capacity
-#' and rk is the number of recruits per unit spawner when B = K
-#' see \code{\link{est_recruits}}, the
+#' "logistic", "bevholt" or "ricker") and ("stochastic" is boolean and controls
+#' whether recruitment should be stochastic or not)
+#' Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and
+#' K is carrying capacity and rk is the number of recruits per unit spawner when
+#'  B = K see \code{\link{est_recruits}}, the
 #' spatial distribution of the recruitment is assigment with "spat_dist" which
 #' can be "uniform", "lognormal" or "user" specified
 #' (see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment
@@ -93,7 +94,7 @@ create_model <- function(control){
   init_R <- matrix(0, control[["n_years"]], control[["n_regions"]])
   init_A <- matrix(0, control[["n_years"]], control[["n_regions"]])
   ## fill year zero
-  if(control[["rec_pars"]]$variation=="stochastic"){
+  if(control[["rec_pars"]]$stochastic){
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
       rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
   }else{
@@ -179,7 +180,7 @@ create_storage <- function(control, n_reps){
                "catch" = matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "tags"= matrix(0, nrow=control[["n_years"]], ncol=n_reps),
                "N_releases"=matrix(0,nrow=control[["n_years"]], ncol=n_reps),
-               "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps), 
+               "N_recaps" =matrix(0,nrow=control[["n_years"]], ncol=n_reps),
                "tags_available"=matrix(0,nrow=control[["n_years"]],ncol=n_reps),
                "expected_recaps"=matrix(0,nrow=control[["n_years"]],ncol=n_reps))
     ## return the object
