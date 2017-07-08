@@ -3,12 +3,10 @@
 #' Function returns number of recruits given last year's population size
 #' carrying capacity K, natural survivorship S and resilience r.
 #' rk is the number of recruits per unit spawner when B = K.
-#' var controls whether the recruitment is stochastic
-#' (var = F is used when calculating recruitment parameters)
+#' rec_par$stochastic controls whether the recruitment is stochastic or not
 #' @param type recruitment function either "constant", "logistic", "bevholt" (Beverton Holt)
 #' or "ricker". The "lognorm" method is independent of population size
 #' @param rec_pars list of recruitment parameters
-#' @param var is recruitment stochastic (default=FALSE)
 #' @importFrom stats rlnorm
 #' @export
 est_recruits <- function(type, rec_pars){
@@ -35,7 +33,7 @@ est_recruits <- function(type, rec_pars){
   ## prevent negative recruitment
   recruits <- ifelse(recruits>0, recruits, 0)
   ## Include variability when required
-  if(rec_pars[["var"]]=="stochastic") {
+  if(rec_pars[["stochastic"]]) {
     recruits <- recruits * rlnorm(1,rec_pars[["mu"]],rec_pars[["s"]])
   }
   ## return the recruits
