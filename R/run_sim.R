@@ -23,8 +23,7 @@ run_sim <- function(control, n_reps, run_assessment){
       # 1.2 Estimate recruitment from last season numbers (there is no growth)
       pop_size <- temp_N + temp_tags
       rec <-est_recruits(type=control[["rec_pars"]]$type,
-                          rec_pars=control[["rec_pars"]],
-                          var=control[["stochastic_rec"]])
+                          rec_pars=control[["rec_pars"]])
       ## assign it to areas (this can be replaced with a function)
       rec_area <- ceiling(rec * control$rec_area)
       ## 1.2.1 Move untagged & tagged population
@@ -71,7 +70,7 @@ run_sim <- function(control, n_reps, run_assessment){
           recaps_by_area[k] <- rbinom(n=1, size=round(catch_by_area[k]),
                                       prob=rprob_by_area[k])
         }
-        # ## then remove them restricting to max number of tags 
+        # ## then remove them restricting to max number of tags
         # recaps_by_area <- pmin(recaps_by_area, temp_tags)
         ## add these back to the untagged population
         temp_N <- temp_N + recaps_by_area
@@ -83,9 +82,9 @@ run_sim <- function(control, n_reps, run_assessment){
         final_N <- temp_N * exp(-control[["pop_pars"]]$nat_mort)
         ##cat("final_N ", final_N, "\n")
         ## apply natural mortality to the tagged population as a bernoulli trial
-        ## note that tag shedding and tag mortality is not being applied here  
+        ## note that tag shedding and tag mortality is not being applied here
         final_tags <- rep(0, control[["n_regions"]])
-        
+
         for(m in 1:control[["n_regions"]]){
           final_tags[m] <- rbinom(n=1, size=temp_tags[m],
                                   prob=exp(-control[["pop_pars"]]$nat_mort))
@@ -113,12 +112,12 @@ run_sim <- function(control, n_reps, run_assessment){
       model$abund_est[y,] <- final_abund
       # note that the model matrix stores estimates by years = rows and areas = cols
       }else{
-        
+
       model$abund_est[y,] <- 0
       }
     }
     storage <- store_sim(storage, control, model, sim=i)
-    # all that is currently stored is a rowsum across areas for the true N, estimated N and catch for each year of the sim 
+    # all that is currently stored is a rowsum across areas for the true N, estimated N and catch for each year of the sim
   }
   ## return the storage
   storage
