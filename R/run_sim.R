@@ -2,7 +2,8 @@
 #'
 #' @param control control file
 #' @param n_reps number of MCMC replicates
-#' @param run_assessment TRUE if you want the simulation to estimate biomass and FALSE if estimates are not required
+#' @param run_assessment TRUE if you want the simulation to estimate biomass and
+#'  FALSE if estimates are not required
 #' @importFrom stats rbinom
 #' @export
 run_sim <- function(control, n_reps, run_assessment){
