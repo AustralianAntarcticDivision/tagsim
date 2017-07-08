@@ -1,4 +1,5 @@
-#' Run a simulation model
+#' Run a tagsim simulation
+#'
 #'
 #' @param control control file
 #' @param n_reps number of MCMC replicates
