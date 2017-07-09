@@ -15,21 +15,24 @@ do_assessment <- function(control, model, year){
       if(year<=2){
         est <- 0
       }else{
-        est <- tagr::single_release(tags = sum(model$tags[year-1,]),
-                                    catch = round(sum(model$catch[year,])),
-                                    recaps = sum(model$recaps[year,]),
-                                    method = "Petersen",
-                                    unit = "numbers",
-                                    type = control[["harvest_pars"]]$ricker,
-                                    tag_mort = control[["tag_pars"]]$mort,
-                                    reporting = control[["tag_pars"]]$report,
-                                    nat_mort = control[["pop_pars"]]$nat_mort,
-                                    chronic_shed = control[["tag_pars"]]$shed)
+        est <- single_release(tags = sum(model$tags[year-1,]),
+                              catch = round(sum(model$catch[year,])),
+                              recaps = sum(model$recaps[year,]),
+                              method = "Petersen",
+                              unit = "numbers",
+                              type = control[["harvest_pars"]]$ricker,
+                              tag_mort = control[["tag_pars"]]$mort,
+                              reporting = control[["tag_pars"]]$report,
+                              nat_mort = control[["pop_pars"]]$nat_mort,
+                              chronic_shed = control[["tag_pars"]]$shed)
       }
   },
   strat_tag = {
-    ## this is Andrew's method
-    est <- NULL
+    ## add a stratifed estimator see Darroch, 1961. The Two-Sample Capture-
+    ## Recapture Census when Tagging and Sampling are Stratified Biometrika, 48,
+    ## 241-260
+    warning("this method is not yet implemented, NA estimate is returned")
+    est <- NA
   },
   survey = {
     ## estimate biomass with some error
