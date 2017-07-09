@@ -25,9 +25,10 @@ run_sim <- function(control, nsims, save=FALSE, path=NULL, filename=NULL){
       temp_tags <- model$tags[y-1,] # zero until tags released, however, doesn't cause problems
       ##cat("pre year ", temp_N, "\n")
       #' 1.2 Estimate recruitment from last season numbers (there is no growth)
-      pop_size <- temp_N + temp_tags
-      rec <- est_recruits(type=control[["rec_pars"]]$type, N = pop_size,
-                          rec_pars=control[["rec_pars"]], var=control[["stochastic_rec"]])
+      rec <- est_recruits(type=control[["rec_pars"]]$type,
+                          N_area = temp_N + temp_tags,
+                          rec_pars=control[["rec_pars"]],
+                          var=control[["stochastic_rec"]])
       ## assign it to areas (this can be replaced with a function)
       rec_area <- ceiling(rec * control$rec_area)
       ## 1.2.1 Move untagged & tagged population
