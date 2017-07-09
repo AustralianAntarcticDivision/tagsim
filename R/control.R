@@ -136,12 +136,12 @@ create_storage <- function(control, n_reps){
 }
 
 ## not going to be very memory efficient
-store_sim <- function(storage, control, model, sim){
+store_rep <- function(storage, control, model, rep){
   ##
   if(control[["assess_pars"]]$type %in% c("tag", "survey")){
-    storage$true_N[,sim] <- rowSums(model[["N"]])
-    storage$est_N[,sim] <- rowSums(model[["abund_est"]])
-    storage$catch[,sim] <- rowSums(model[["catch"]])
+    storage$true_N[,rep] <- rowSums(model[["N"]])
+    storage$est_N[,rep] <- rowSums(model[["abund_est"]])
+    storage$catch[,rep] <- rowSums(model[["catch"]])
     ## return the object
     return(storage)
   }else if(control[["assess_pars"]]$type %in% c("const_TAC")){

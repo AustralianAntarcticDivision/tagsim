@@ -117,7 +117,7 @@ run_sim <- function(control, n_reps, save=FALSE, path=NULL, filename=NULL){
       ## add the abundance estimates
       model$abund_est[y,] <- final_abund
     }
-    storage <- store_sim(storage, control, model, sim=i)
+    storage <- store_rep(storage, control, model, rep=i)
   }
   ## return the storage
   storage
