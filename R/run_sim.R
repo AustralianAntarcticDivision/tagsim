@@ -7,6 +7,8 @@
 #' @param path path for the output
 #' @param filename filename for the control file
 #' @export
+#' @examples
+#' ## add an example
 run_sim <- function(control, nsims, save=FALSE, path=NULL, filename=NULL){
   ## storage for the final results (do we want this by region?)
   storage <- create_storage(control, nsims)
