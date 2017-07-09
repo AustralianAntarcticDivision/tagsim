@@ -2,18 +2,21 @@
 % Please edit documentation in R/run_sim.R
 \name{run_sim}
 \alias{run_sim}
-\title{Run a tagsim simulation}
+\title{Run a simulation model}
 \usage{
-run_sim(control, n_reps, run_assessment)
+run_sim(control, nsims, save = FALSE, path = NULL, filename = NULL)
 }
 \arguments{
 \item{control}{control file}
 
-\item{n_reps}{number of MCMC replicates}
+\item{nsims}{number of simulations}
 
-\item{run_assessment}{TRUE if you want the simulation to estimate biomass and
-FALSE if estimates are not required}
+\item{save}{save the output (default=FALSE)}
+
+\item{path}{path for the output}
+
+\item{filename}{filename for the control file}
 }
 \description{
-Run a tagsim simulation
+Run a simulation model
 }

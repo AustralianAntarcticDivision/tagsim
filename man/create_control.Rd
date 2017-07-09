@@ -5,44 +5,38 @@
 \alias{control}
 \title{Create a control file}
 \usage{
-create_control(years, regions, pop_pars, rec_pars, harvest_pars, tag_pars,
-  fish_pars, move_pars, assess_pars)
+create_control(years, regions, pop_pars, rec_pars = list(type = "constant", mu
+  = 0, s = 1, spat_dist = "uniform"), harvest_pars, tag_pars, fish_pars,
+  move_pars, assess_pars, stoch_rec = TRUE)
 }
 \arguments{
 \item{years}{vector of years (integers starting with 1)}
 
 \item{regions}{vector of regions (integers starting with 1)}
 
-\item{pop_pars}{list of population parameters containing the initial
-population size ("initial") and instantaneous natural mortality ("nat_mort")}
+\item{pop_pars}{list of population parameters containing the initial population
+size ("initial") and instantaneous natural mortality ("nat_mort")}
 
-\item{rec_pars}{list of recruitment parameters containing the name of the
-mechanism for calculating recruitment ("type"; can be either "constant",
-"logistic", "bevholt" or "ricker") and ("stochastic" is boolean and controls
-whether recruitment should be stochastic or not)
-Currently the resilience is steepness (for TOA=0.75 and for TOP=0.7), rk and
-K is carrying capacity and rk is the number of recruits per unit spawner when
- B = K see \code{\link{est_recruits}}, the
-spatial distribution of the recruitment is assigment with "spat_dist" which
-can be "uniform", "lognormal" or "user" specified
-(see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment
-is determined}
+\item{rec_pars}{list of recruitment parameters containing the name of the mechanism
+for calculating recruitment ("type"; can be either "constant", "logistic", "bevholt"
+or "ricker") see \code{\link{est_recruits}}, the spatial distribution of the recruitment
+is assigment with "spat_dist" which can be "uniform", "lognormal" or "user" specified
+(see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment is determined}
 
-\item{harvest_pars}{harvest parameters a list containing "type"
-("const_exploit" = constant exploitation rate, "TAC" = constant catch, ...),
-(see \code{\link{calc_catch}})}
+\item{harvest_pars}{harvest parameters a list containing "type" ("const_exploit" =
+constant exploitation rate, "TAC" = constant catch, ...),  (see \code{\link{calc_catch}})}
 
-\item{tag_pars}{list of tag related parameters that reflects the simulated tagged population (mort, shed, report)}
+\item{tag_pars}{list of tag related parameters (release, mort, shed, report)}
 
-\item{fish_pars}{list of parameters relating to the fishing strategy. The
-intent is for these to control the spatial dynamics of fishing and for
-harvest_pars to determine total catch (see \code{\link{fishing_locs}})}
+\item{fish_pars}{list of parameters relating to the fishing strategy . The intent is for
+these to control the spatial dynamics of fishing and for harvest_pars to determine total
+catch (see \code{\link{fishing_locs}})}
 
-\item{move_pars}{list of movement parameters "type", "prob" (see
-\code{\link{move_matrix}})}
+\item{move_pars}{list of movement parameters "type", "prob" (see \code{\link{move_matrix}})}
 
-\item{assess_pars}{list of assessment parameters that includes a seperate set of tagging parameters (see
-\code{\link{do_assessment}})}
+\item{assess_pars}{list of assessment parameters (see \code{\link{do_assessment}})}
+
+\item{stoch_rec}{stochasitc recruitment (default=TRUE)}
 }
 \description{
 The control file specifies the simulation parameters

@@ -63,8 +63,8 @@ calc_catch <- function(control, N_area, est_area){
   catch <- NULL
   ## calc catch based on type
   switch(control[["harvest_pars"]]$type,
-         const_exploit = catch <- est * control[["harvest_pars"]]$exploit_rate,
-         TAC = catch <- control[["harvest_pars"]]$exploit_rate
+         const_exploit = catch <- est * control[["harvest_pars"]]$rate,
+         TAC = catch <- control[["harvest_pars"]]$rate
   )
   ## restrict catch to max harvest rate
   catch <- min(max_catch, catch)
