@@ -9,10 +9,10 @@ single_release(tags, catch, recaps, mean_wt = 0, prior_recaps = 0, method,
   chronic_shed = 0, chronic_mort = 0)
 }
 \arguments{
-\item{tags}{number of marked animals released (note these must be whole 
+\item{tags}{number of marked animals released (note these must be whole
 numbers for the bootstrap to work)}
 
-\item{catch}{vector of the number or weight of animals captured and checked 
+\item{catch}{vector of the number or weight of animals captured and checked
 for tags by haul on the second survey}
 
 \item{recaps}{vector of number of marked animals recaptured by haul}
@@ -20,14 +20,14 @@ for tags by haul on the second survey}
 \item{mean_wt}{mean weight of a single fish (optional argument for Chapman
 weight method)}
 
-\item{prior_recaps}{vector of subsequent recaptures (first year this 
+\item{prior_recaps}{vector of subsequent recaptures (first year this
 represents within season recaptures)}
 
 \item{method}{method}
 
 \item{unit}{measurement unit (numbers, kg, tonnes)}
 
-\item{type}{do we assume fishing occurs over a short period (Ricker type 1) 
+\item{type}{do we assume fishing occurs over a short period (Ricker type 1)
 or is extended over the year and competes with natural mortality and tag
 sheddding (Ricker type 2)}
 
@@ -54,8 +54,8 @@ For a Type 1 fishery the adjusted releases are calculate as follows
 3) Natural mortality and chronic tag loss and tag-induced mortality is
  applied.
 
-For a fishery that operates throughout the year (Ricker Type 2) fishing and 
-natural mortality competed to deplete the tagged population. The adjusted 
+For a fishery that operates throughout the year (Ricker Type 2) fishing and
+natural mortality competed to deplete the tagged population. The adjusted
 releases are calculated as follows
 
 1) Initial tag-induced mortality is applied
@@ -63,42 +63,21 @@ releases are calculated as follows
 2) Half of the within season recaptures divided by the tag reporting rate are
 removed
 
-3) Half of the natural mortality and chronic tag loss and tag-induced 
+3) Half of the natural mortality and chronic tag loss and tag-induced
 mortality is applied
 
-4) The remaining within season recaptures divided by the tag reporting rate 
+4) The remaining within season recaptures divided by the tag reporting rate
 are removed
 
-5) The remaining natural mortality and chronic tag loss and tag-induced 
+5) The remaining natural mortality and chronic tag loss and tag-induced
 mortality is applied.
 }
 \examples{
 ## Chapman estimates of population numbers
 single_release(tags=100, catch=200, recaps=5, method="Chapman",
                type=1, unit="numbers")
-single_release(tags=100, catch=200, recaps=5, method="Chapman", 
+single_release(tags=100, catch=200, recaps=5, method="Chapman",
                type=1, unit="numbers", tag_mort=0.1)
 single_release(tags=100, catch=200, recaps=5, method="Chapman", type=1,
-               unit="numbers", tag_mort=0.1, reporting=0.8) 
-
-## Chapman estimate of the population size of carp in a lake
-## Load the carphauls data
-attach(carphauls)
-fit <- single_release(tags = 803, catch = carphauls$catch,
-                     recaps = carphauls$tagged,
-                     prior_recaps = c(108, 181, 82),
-                     method = "Chapman", unit = "numbers",
-                     type = 2, tag_mort = 0.3, nat_mort = 0.04,
-                     chronic_mort = 0.17)
-summary(fit)
-
-## Not run: 
-#######################################
-# estimate uncertainty with a bootstrap
-#######################################
-
-boot_fit <- bootstrap(fit, 1000)
-summary(boot_fit)
-
-## End(Not run)
+               unit="numbers", tag_mort=0.1, reporting=0.8)
 }

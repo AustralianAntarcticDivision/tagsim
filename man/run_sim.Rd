@@ -4,12 +4,12 @@
 \alias{run_sim}
 \title{Run a simulation model}
 \usage{
-run_sim(control, nsims, save = FALSE, path = NULL, filename = NULL)
+run_sim(control, n_reps, save = FALSE, path = NULL, filename = NULL)
 }
 \arguments{
 \item{control}{control file}
 
-\item{nsims}{number of simulations}
+\item{n_reps}{number of replicate simulations}
 
 \item{save}{save the output (default=FALSE)}
 

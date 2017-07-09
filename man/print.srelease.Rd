@@ -12,6 +12,6 @@
 \item{...}{additional parameters}
 }
 \description{
-S3 method for single release, single recapture models 
+S3 method for single release, single recapture models
 tag recapture models of abundance
 }
