@@ -1,5 +1,7 @@
 Changes in tagsim VERSION 0.2
 
+o New vignette intro-tagsim
+
 o Function argument denoting the number of replicate simulations 'nsims' renamed
 'n_reps'
 
