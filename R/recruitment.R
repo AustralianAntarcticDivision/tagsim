@@ -7,11 +7,12 @@
 #' @param type recruitment function either "constant", "logistic", "bevholt" (Beverton Holt)
 #' or "ricker". The "lognorm" method is independent of population size
 #' @param rec_pars list of recruitment parameters
+#' @param N_area current population size by area
 #' @importFrom stats rlnorm
 #' @export
-est_recruits <- function(type, rec_pars){
+est_recruits <- function(type, rec_pars, N_area){
   ## add some checks
-  N <- rec_pars[["initial"]]
+  N <- sum(N_area)
   ## calculate recruitment based on type
   switch(type,
          constant = recruits <- rec_pars[["initial"]],

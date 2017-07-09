@@ -19,12 +19,12 @@ run_sim <- function(control, n_reps, run_assessment){
       ## Simulation Order
       ### 1 New season processes
       ## 1.1 create a temp vector to store the population and tag numbers
-      temp_N <- + model$N[y-1,]
+      temp_N <- model$N[y-1,]
       # zero until tags released, however, doesn't cause problems
       temp_tags <- model$tags[y-1,]
       # 1.2 Estimate recruitment from last season numbers (there is no growth)
-      pop_size <- temp_N + temp_tags
-      rec <-est_recruits(type=control[["rec_pars"]]$type,
+      rec <- est_recruits(type=control[["rec_pars"]]$type,
+                          N = temp_N + temp_tags,
                           rec_pars=control[["rec_pars"]])
       ## assign it to areas (this can be replaced with a function)
       rec_area <- ceiling(rec * control$rec_area)
