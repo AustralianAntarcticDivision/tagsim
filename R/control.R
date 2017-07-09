@@ -127,42 +127,42 @@ create_model <- function(control){
 #' Note tags could be a multi-dimensional array to account for tag movement
 #' @param control a control file
 #' @export
-create_model_multi_release <- function(control){
-  ## create storage for the
-  init_N <- matrix(0, control[["n_years"]], control[["n_regions"]])
-  init_R <- matrix(0, control[["n_years"]], control[["n_regions"]])
-  init_A <- matrix(0, control[["n_years"]], control[["n_regions"]])
-  ## fill year zero
-  if(control[["rec_pars"]]$variation=="stochastic"){
-    init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
-      rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
-  }else{
-    init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
-  }
-  ## add initial recruitment (not getting used currently) - remove as it is getting used already
-  init_R[1,] <- control[["rec_area"]] *
-    est_recruits(type=control[["rec_pars"]]$type,
-                 rec_pars=control[["rec_pars"]])
-  ## initial assessment knows pop size without error ** can change this
-  init_A[1,] <- init_N[1,]
-  ## create the object
-  obj <- list("N_end_season" = matrix(0,control[["n_years"]],control[["n_regions"]]),
-              "N_true" = init_N,
-              "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
-              # for multi year release and recapture store rows as yr of release and cols as yr of recapture
-              "tags_available" =  matrix(0,control[["n_years"]],control[["n_years"]]),
-              "recaps" = matrix(0,control[["n_years"]],control[["n_years"]]),
-              # create a seperate storage variable for total tags available and recaptures for a given year
-              "tags_available_store" = matrix(0,control[["n_years"]],control[["n_regions"]]),
-              "recaps_store"= matrix(0,control[["n_years"]],control[["n_regions"]]),
-              "recruits" = init_R,
-              "catch" = matrix(0,control[["n_years"]],control[["n_regions"]]),
-              "abund_est" = init_A,
-              "expected_recaps"=matrix(0,control[["n_years"]],control[["n_regions"]])
-  )
-  ## return the object
-  return(obj)
-}
+# create_model_multi_release <- function(control){
+#   ## create storage for the
+#   init_N <- matrix(0, control[["n_years"]], control[["n_regions"]])
+#   init_R <- matrix(0, control[["n_years"]], control[["n_regions"]])
+#   init_A <- matrix(0, control[["n_years"]], control[["n_regions"]])
+#   ## fill year zero
+#   if(control[["rec_pars"]]$variation=="stochastic"){
+#     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
+#       rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
+#   }else{
+#     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
+#   }
+#   ## add initial recruitment (not getting used currently) - remove as it is getting used already
+#   init_R[1,] <- control[["rec_area"]] *
+#     est_recruits(type=control[["rec_pars"]]$type,
+#                  rec_pars=control[["rec_pars"]])
+#   ## initial assessment knows pop size without error ** can change this
+#   init_A[1,] <- init_N[1,]
+#   ## create the object
+#   obj <- list("N_end_season" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+#               "N_true" = init_N,
+#               "releases" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+#               # for multi year release and recapture store rows as yr of release and cols as yr of recapture
+#               "tags_available" =  matrix(0,control[["n_years"]],control[["n_years"]]),
+#               "recaps" = matrix(0,control[["n_years"]],control[["n_years"]]),
+#               # create a seperate storage variable for total tags available and recaptures for a given year
+#               "tags_available_store" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+#               "recaps_store"= matrix(0,control[["n_years"]],control[["n_regions"]]),
+#               "recruits" = init_R,
+#               "catch" = matrix(0,control[["n_years"]],control[["n_regions"]]),
+#               "abund_est" = init_A,
+#               "expected_recaps"=matrix(0,control[["n_years"]],control[["n_regions"]])
+#   )
+#   ## return the object
+#   return(obj)
+# }
 
 #' Create an object to store simulation results
 #'
