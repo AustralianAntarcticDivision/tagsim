@@ -1,6 +1,5 @@
 #' Run a simulation model
 #'
-#' Run a simulation model
 #' @param control control file
 #' @param n_reps number of replicate simulations
 #' @param save save the output (default=FALSE)
@@ -8,7 +7,7 @@
 #' @param filename filename for the control file
 #' @export
 #' @examples
-#' ## add an example
+#' # add an example
 run_sim <- function(control, n_reps, save=FALSE, path=NULL, filename=NULL){
   ## storage for the final results (do we want this by region?)
   storage <- create_storage(control, n_reps)
@@ -24,13 +23,13 @@ run_sim <- function(control, n_reps, save=FALSE, path=NULL, filename=NULL){
       ### 1 New season processes
       ## 1.1 create a temp vector to store the population and tag numbers
       temp_N <- model$N[y-1,]
-      temp_tags <- model$tags[y-1,] # zero until tags released, however, doesn't cause problems
+      # this is zero until tags released, however, doesn't cause problems
+      temp_tags <- model$tags[y-1,]
       ##cat("pre year ", temp_N, "\n")
       #' 1.2 Estimate recruitment from last season numbers (there is no growth)
       rec <- est_recruits(type=control[["rec_pars"]]$type,
                           N_area = temp_N + temp_tags,
-                          rec_pars=control[["rec_pars"]],
-                          var=control[["stochastic_rec"]])
+                          rec_pars=control[["rec_pars"]])
       ## assign it to areas (this can be replaced with a function)
       rec_area <- ceiling(rec * control$rec_area)
       ## 1.2.1 Move untagged & tagged population

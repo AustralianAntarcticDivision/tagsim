@@ -46,7 +46,6 @@ create_control <- function(years,
                   "assess_pars" = assess_pars,
                   "n_years" = length(years),
                   "n_regions" = length(regions),
-                  "stochastic_rec" = stoch_rec,
                   ## define the movement matrix
                   "movement" = move_matrix(method=move_pars$type,
                                            n_rows=sqrt(length(regions)),
@@ -88,15 +87,16 @@ create_model <- function(control){
   init_R <- matrix(0, control[["n_years"]] + 1, control[["n_regions"]])
   init_A <- matrix(0, control[["n_years"]] +1 , control[["n_regions"]])
   ## fill year zero
-  if(control[["stochastic_rec"]]){
+  if(control[["rec_pars"]]$stochastic_rec){
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial *
                   rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
   }else{
     init_N[1,] <- control[["rec_area"]] * control[["pop_pars"]]$initial
   }
   ## add initial recruitment (not getting used currently)
-  init_R[1,] <- control[["rec_area"]] * est_recruits(type=control[["rec_pars"]]$type, N = init_N[1,],
-                                                     rec_pars=control[["rec_pars"]], var=control[["stochastic_rec"]])
+  init_R[1,] <- control[["rec_area"]] * est_recruits(type=control[["rec_pars"]]$type,
+                                                     N_area = init_N[1,],
+                                                     rec_pars=control[["rec_pars"]])
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object

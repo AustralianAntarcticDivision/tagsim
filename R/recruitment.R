@@ -4,9 +4,8 @@
 #' @param type either "constant", "logistic", "bevholt" or "ricker"
 #' @param N_area population by area
 #' @param rec_pars recruitment parameters (from control file)
-#' @param var recruitment variability (default FALSE)
 #' @export
-est_recruits <- function(type, N_area, rec_pars, var=FALSE){
+est_recruits <- function(type, N_area, rec_pars){
   ## add some checks
   N <- sum(N_area)
   ## calculate recruitment based on type
@@ -30,7 +29,7 @@ est_recruits <- function(type, N_area, rec_pars, var=FALSE){
   ## prevent negative recruitment
   recruits <- ifelse(recruits>0, recruits, 0)
   ## Include variability when required
-  if(var) {
+  if(rec_pars[["stochastic_rec"]]) {
     recruits <- recruits * rlnorm(1,rec_pars[["mu"]],rec_pars[["s"]])
   }
   ## return the recruits
