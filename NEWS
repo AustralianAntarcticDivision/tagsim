@@ -1,5 +1,11 @@
 Changes in tagsim VERSION 0.2
 
+o Function argument denoting the number of replicate simulations 'nsims' renamed
+'n_reps'
+
+o control[["stochastic_rec"]] is now a boolean element of rec_pars i.e.
+rec_pars$stochastic_rec = TRUE
+
 o Addition of "survey" assessment method
 
 INTRODUCING in tagsim VERSION 0.1
