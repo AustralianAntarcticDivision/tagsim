@@ -57,7 +57,7 @@ The process to generate recruitment is specified using the "type" argument. Poss
 
 ## Harvest parameters
 
-The harvest parameter "type" specifies the how the catch is calculated. Currently two types are available, a constant exploitation rate ("type" = "exploit") and a constant total allowable catch (TAC; "type" = "const_TAC"). The "rate" parameter controls the magnitude of catch. It should be between zero and one if it's an exploitation rate and the total number of removals for a constant TAC.
+The harvest parameter "type" specifies the how the catch is calculated. Currently two types are available, a constant exploitation rate ("type" = "const_exploit") and a constant total allowable catch (TAC; "type" = "TAC"). The "rate" parameter controls the magnitude of catch. It should be between zero and one if it's an exploitation rate and the total number of removals for a constant TAC.
 
 ## Tagging parameters
 
