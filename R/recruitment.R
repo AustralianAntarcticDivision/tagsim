@@ -1,9 +1,14 @@
-#' Estimate recruitment
+#' Calculate recrutiment from previous years population
 #'
-#' Estimate recruitment the total annual recruitment
-#' @param type either "constant", "logistic", "bevholt" or "ricker"
-#' @param N_area population by area
-#' @param rec_pars recruitment parameters (from control file)
+#' Function returns number of recruits given last year's population size N,
+#' carrying capacity K, natural survivorship S and resilience r.
+#' rk is the number of recruits per unit spawner when B = K.
+#'
+#' Modification of function written by Bill de la Mare
+#' @param type recruitment function either "constant", "logistic", "bevholt" (Beverton Holt)
+#' or "ricker". The "lognorm" method is independent of population size
+#' @param N_area population size by region
+#' @param rec_pars list of recruitment parameters (note: extend this help)
 #' @export
 est_recruits <- function(type, N_area, rec_pars){
   ## add some checks
@@ -15,14 +20,14 @@ est_recruits <- function(type, N_area, rec_pars){
            recruits <- N*rec_pars[["rk"]]*(1 + rec_pars[["resilience"]]*(1 - N/rec_pars[["K"]]))
          },
          bevholt = {
-           bta <- rec_pars[["resilience"]]*rec_pars[["rk"]]
-           b <- 1./(bta/(rec_pars[["rk"]]*rec_pars[["K"]]) - 1./rec_pars[["K"]])
-           a <- b*bta
+           # bta <- rec_pars[["resilience"]]*rec_pars[["rk"]]
+           # b <- 1./(bta/(rec_pars[["rk"]]*rec_pars[["K"]]) - 1./rec_pars[["K"]])
+           # a <- b*bta
            recruits<-a*N/(b + N)
          },
          ricker = {
-           a <- rec_pars[["resilience"]]*rec_pars[["rk"]]
-           b <- log(a*rec_pars[["K"]]/(rec_pars[["rk"]]*rec_pars[["K"]]))/rec_pars[["K"]]
+           # a <- rec_pars[["resilience"]]*rec_pars[["rk"]]
+           # b <- log(a*rec_pars[["K"]]/(rec_pars[["rk"]]*rec_pars[["K"]]))/rec_pars[["K"]]
            recruits<-a*N*exp(-b*N)
          }
   )
