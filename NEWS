@@ -1,3 +1,11 @@
+Changes in tagsim VERSION 0.2.2
+
+o Vignette intro-tagsim stated harvest parameter "type" to be either "exploit"
+or "const_TAC", this has been corrected to be "const_exploit" and "TAC"
+
+o 'calc_catch' now returns NA when incorrect harvest_par$type is specified,
+previously the maximum permitted catch was returned
+
 Changes in tagsim VERSION 0.2
 
 o New vignette intro-tagsim

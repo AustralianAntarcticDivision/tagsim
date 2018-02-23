@@ -2,8 +2,8 @@ Package: tagsim
 Type: Package
 Title: Simple population model for tag-based simulations
 Description: Simulation model of tagged and untagged individuals. Used for evaulating tag-based population models.
-Version: 0.2.1
-Date: 2017-07-11
+Version: 0.2.2
+Date: 2018-02-21
 Author: Paul Burch, Lucy Robinson
 Maintainer: Paul Burch <Paul.Burch@aad.gov.au>
 Depends:
