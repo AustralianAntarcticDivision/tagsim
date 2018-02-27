@@ -7,7 +7,7 @@
 #' @param filename filename for the control file
 #' @export
 #' @examples
-#' # add an example
+#' ## add an example
 run_sim <- function(control, n_reps, save=FALSE, path=NULL, filename=NULL){
   ## storage for the final results (do we want this by region?)
   storage <- create_storage(control, n_reps)
@@ -70,8 +70,8 @@ run_sim <- function(control, n_reps, save=FALSE, path=NULL, filename=NULL){
       if(control[["harvest_pars"]]$ricker ==1){
         ## ricker type 1 all fishing first then
         temp_N <- temp_N - catch_by_area
-        ## apply natural mortality
-        temp_N <- temp_N * exp(-control[["pop_pars"]]$nat_mort)
+        ##* apply natural mortality - we've also applied M below
+        #temp_N <- temp_N * exp(-control[["pop_pars"]]$nat_mort)
         ## calculate tag recaptures / attrition
         ## object for recaptures
         recaps_by_area <- rep(0, control[["n_regions"]])
