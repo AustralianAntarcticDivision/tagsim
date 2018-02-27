@@ -1,3 +1,11 @@
+Changes in tagsim DEV VERSION 0.2.3
+
+o permit the user to specify either 'resiliance', 'K' and 'rk' or just 'a' and
+'b' for the 'bevholt' and ricker' stock-recruitment relationships
+
+o bug fix in Ricker Type I fishery specification, natural mortality was being
+applied twice
+
 Changes in tagsim VERSION 0.2.2
 
 o Vignette intro-tagsim stated harvest parameter "type" to be either "exploit"
