@@ -1,11 +1,11 @@
 Package: tagsim
 Type: Package
 Title: Simple population model for tag-based simulations
-Description: Simulation model of tagged and untagged individuals. Used for evaulating tag-based population models.
-Version: 0.2.2
-Date: 2018-02-21
+Description: Simulation model of tagged and untagged individuals. Used for evaulating tag-based population models and for teaching QMS 516 Management strategy evaluation and risk assessment.
+Version: 0.2.4
+Date: 2018-03-01
 Author: Paul Burch, Lucy Robinson
-Maintainer: Paul Burch <Paul.Burch@aad.gov.au>
+Maintainer: Paul Burch <Paul.Burch@csiro.au>
 Depends:
     R (>= 3.0.1),
 Suggests:

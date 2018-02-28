@@ -1,10 +1,13 @@
-Changes in tagsim DEV VERSION 0.2.3
+Changes in tagsim VERSION 0.2.4
 
 o permit the user to specify either 'resiliance', 'K' and 'rk' or just 'a' and
 'b' for the 'bevholt' and ricker' stock-recruitment relationships
 
 o bug fix in Ricker Type I fishery specification, natural mortality was being
 applied twice
+
+o new functions 'baranov_catch' and 'F_to_catch' to transform between F and
+catch
 
 Changes in tagsim VERSION 0.2.2
 
