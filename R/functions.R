@@ -2,9 +2,11 @@
 #'
 #' Returns catch for given F for population size N
 #' with natural and fishing mortality M and F respectively
+#'
+#' Based on code written by Bill de la Mare
 #' @param N population size
 #' @param nat_mort instantaneous natural mortality
-#' @param fish_mort instantaneousfishing mortality
+#' @param fish_mort instantaneous fishing mortality
 #' @export
 baranov_catch <- function(N, nat_mort, fish_mort)
 {
@@ -16,7 +18,7 @@ baranov_catch <- function(N, nat_mort, fish_mort)
 #' Returns catch from N for a given F, used in \code{catchtoFfinding} the F that
 #' corresponds to a given catch.
 #'
-#' Modified from function written by Bill de la Mare
+#' Based on code written by Bill de la Mare
 #' @param N population size
 #' @param nat_mort instantaneous natural mortality
 #' @param fish_mort instantaneous fishing mortality
@@ -32,7 +34,7 @@ F_to_catch <- function(N, nat_mort, fish_mort){
 #'
 #' Root of this function is the F that corresponds to a given catch
 #'
-#' Modified from function written by Bill de la Mare
+#' Based on code written by Bill de la Mare
 #' @param N population size
 #' @param nat_mort instantaneous natural mortality
 #' @param fish_mort instantaneous fishing mortality
