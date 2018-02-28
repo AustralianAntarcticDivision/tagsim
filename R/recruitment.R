@@ -5,8 +5,9 @@
 #' rk is the number of recruits per unit spawner when B = K.
 #'
 #' Modification of function written by Bill de la Mare
-#' @param type recruitment function either "constant", "logistic", "bevholt" (Beverton Holt)
-#' or "ricker". The "lognorm" method is independent of population size
+#' @param type recruitment function either "constant", "logistic", "bevholt"
+#' (Beverton Holt) or "ricker". The "lognorm" method is independent of
+#' population size
 #' @param N_area population size by region
 #' @param rec_pars list of recruitment parameters (note: extend this help)
 #' @export
@@ -20,15 +21,21 @@ est_recruits <- function(type, N_area, rec_pars){
            recruits <- N*rec_pars[["rk"]]*(1 + rec_pars[["resilience"]]*(1 - N/rec_pars[["K"]]))
          },
          bevholt = {
-           # bta <- rec_pars[["resilience"]]*rec_pars[["rk"]]
-           # b <- 1./(bta/(rec_pars[["rk"]]*rec_pars[["K"]]) - 1./rec_pars[["K"]])
-           # a <- b*bta
-           recruits<-a*N/(b + N)
+           ## If resilience, K and rk are supplied we use them to calculate a and b
+           if(all(c("resilience", "K", "rk") %in% names(rec_pars))){
+           bta <- rec_pars[["resilience"]]*rec_pars[["rk"]]
+           b <- 1./(bta/(rec_pars[["rk"]]*rec_pars[["K"]]) - 1./rec_pars[["K"]])
+           a <- b*bta
+           }
+           recruits<-(rec_pars[["a"]]*N)/(rec_pars[["b"]] + N)
          },
          ricker = {
-           # a <- rec_pars[["resilience"]]*rec_pars[["rk"]]
-           # b <- log(a*rec_pars[["K"]]/(rec_pars[["rk"]]*rec_pars[["K"]]))/rec_pars[["K"]]
-           recruits<-a*N*exp(-b*N)
+           ## If resilience, K and rk are supplied we use them to calculate a and b
+           if(all(c("resilience", "K", "rk") %in% names(rec_pars))){
+           a <- rec_pars[["resilience"]]*rec_pars[["rk"]]
+           b <- log(a*rec_pars[["K"]]/(rec_pars[["rk"]]*rec_pars[["K"]]))/rec_pars[["K"]]
+           }
+           recruits<-rec_pars[["a"]]*N*exp(-rec_pars[["b"]]*N)
          }
   )
   ## prevent negative recruitment

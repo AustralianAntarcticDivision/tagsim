@@ -2,17 +2,24 @@
 % Please edit documentation in R/recruitment.R
 \name{est_recruits}
 \alias{est_recruits}
-\title{Estimate recruitment}
+\title{Calculate recrutiment from previous years population}
 \usage{
 est_recruits(type, N_area, rec_pars)
 }
 \arguments{
-\item{type}{either "constant", "logistic", "bevholt" or "ricker"}
+\item{type}{recruitment function either "constant", "logistic", "bevholt"
+(Beverton Holt) or "ricker". The "lognorm" method is independent of
+population size}
 
-\item{N_area}{population by area}
+\item{N_area}{population size by region}
 
-\item{rec_pars}{recruitment parameters (from control file)}
+\item{rec_pars}{list of recruitment parameters (note: extend this help)}
 }
 \description{
-Estimate recruitment the total annual recruitment
+Function returns number of recruits given last year's population size N,
+carrying capacity K, natural survivorship S and resilience r.
+rk is the number of recruits per unit spawner when B = K.
+}
+\details{
+Modification of function written by Bill de la Mare
 }
