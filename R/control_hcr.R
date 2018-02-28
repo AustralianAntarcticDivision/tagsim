@@ -8,9 +8,7 @@
 #' size ("initial") and instantaneous natural mortality ("nat_mort")
 #' @param rec_pars list of recruitment parameters containing the name of the mechanism
 #' for calculating recruitment ("type"; can be either "constant", "logistic", "bevholt"
-#' or "ricker") see \code{\link{est_recruits}}, the spatial distribution of the recruitment
-#' is assigment with "spat_dist" which can be "uniform", "lognormal" or "user" specified
-#' (see \code{\link{recruit_area}}). Recruitment The stochasisity in recruitment is determined
+#' or "ricker") see \code{\link{est_recruits}}
 #' @param harvest_pars harvest parameters a list containing "type" ("const_exploit" =
 #' constant exploitation rate, "TAC" = constant catch, ...),  (see \code{\link{calc_catch}})
 #' @param fish_pars list of parameters relating to the fishing strategy . The intent is for
@@ -50,10 +48,10 @@ create_control_hcr <- function(years,
 #' @param control a control file
 #' @export
 create_model_hcr <- function(control){
-  ## create storage for the
-  init_N <- matrix(0, control[["n_years"]] + 1, control[["n_regions"]])
-  init_R <- matrix(0, control[["n_years"]] + 1, control[["n_regions"]])
-  init_A <- matrix(0, control[["n_years"]] +1 , control[["n_regions"]])
+  ## create storage for population size, recruitment and assessment
+  init_N <- rep(0, control[["n_years"]] + 1)
+  init_R <- rep(0, control[["n_years"]] + 1)
+  init_A <- rep(0, control[["n_years"]] +1)
   ## fill year zero
   if(control[["rec_pars"]]$stochastic_rec){
     init_N[1,] <- control[["pop_pars"]]$initial *
@@ -63,13 +61,13 @@ create_model_hcr <- function(control){
   }
   ## add initial recruitment (not getting used currently)
   init_R[1,] <- est_recruits(type=control[["rec_pars"]]$type,
-                            N_area = init_N[1,], rec_pars=control[["rec_pars"]])
+                            N_area = 1, rec_pars=control[["rec_pars"]])
   ## initial assessment knows pop size without error ** can change this
   init_A[1,] <- init_N[1,]
   ## create the object
   obj <- list("N" = init_N,
               "recruits" = init_R,
-              "catch" = matrix(0, control[["n_years"]] + 1, control[["n_regions"]]),
+              "catch" = rep(0, control[["n_years"]] + 1),
               "abund_est" = init_A
   )
   ## return the object
