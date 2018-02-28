@@ -6,8 +6,7 @@
 \title{Create a simplified control file for a single-area population without tags}
 \usage{
 create_control_hcr(years, pop_pars, rec_pars = list(type = "constant", mu = 0,
-  s = 1, spat_dist = "uniform"), harvest_pars, fish_pars, assess_pars,
-  stoch_rec = TRUE)
+  s = 1, spat_dist = "uniform"), harvest_pars, assess_pars, stoch_rec = TRUE)
 }
 \arguments{
 \item{years}{vector of years (integers starting with 1)}
@@ -21,10 +20,6 @@ or "ricker") see \code{\link{est_recruits}}}
 
 \item{harvest_pars}{harvest parameters a list containing "type" ("const_exploit" =
 constant exploitation rate, "TAC" = constant catch, ...),  (see \code{\link{calc_catch}})}
-
-\item{fish_pars}{list of parameters relating to the fishing strategy . The intent is for
-these to control the spatial dynamics of fishing and for harvest_pars to determine total
-catch (see \code{\link{fishing_locs}})}
 
 \item{assess_pars}{list of assessment parameters (see \code{\link{do_assessment}})}
 
