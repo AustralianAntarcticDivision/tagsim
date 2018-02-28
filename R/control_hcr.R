@@ -11,9 +11,6 @@
 #' or "ricker") see \code{\link{est_recruits}}
 #' @param harvest_pars harvest parameters a list containing "type" ("const_exploit" =
 #' constant exploitation rate, "TAC" = constant catch, ...),  (see \code{\link{calc_catch}})
-#' @param fish_pars list of parameters relating to the fishing strategy . The intent is for
-#' these to control the spatial dynamics of fishing and for harvest_pars to determine total
-#' catch (see \code{\link{fishing_locs}})
 #' @param assess_pars list of assessment parameters (see \code{\link{do_assessment}})
 #' @param stoch_rec stochasitc recruitment (default=TRUE)
 #' @aliases control
@@ -22,7 +19,6 @@ create_control_hcr <- function(years,
                                pop_pars,
                                rec_pars=list("type"="constant", "mu"=0, "s"=1, "spat_dist"="uniform"),
                                harvest_pars,
-                               fish_pars,
                                assess_pars,
                                stoch_rec = TRUE){
   ## add additional error checking
@@ -30,7 +26,6 @@ create_control_hcr <- function(years,
   control <- list("years" = years,
                   "pop_pars" = pop_pars,
                   "harvest_pars" =harvest_pars,
-                  "fish_pars" = fish_pars,
                   "assess_pars" = assess_pars,
                   "n_years" = length(years))
   ## add a class
