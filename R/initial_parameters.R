@@ -32,4 +32,3 @@ init_k <- function(pop_pars, rec_pars, max_reps=1000, tol=1){
   print("convergence was not achieved in the specified number of replicates")
 }
 
-

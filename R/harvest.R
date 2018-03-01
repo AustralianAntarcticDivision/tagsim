@@ -123,4 +123,3 @@ calc_catch <- function(control, N_area, est_area){
 #   return(catch)
 # }
 #
-
