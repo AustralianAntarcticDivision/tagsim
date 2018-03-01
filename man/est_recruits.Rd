@@ -18,7 +18,7 @@ population size}
 \description{
 Function returns number of recruits given last year's population size N,
 carrying capacity k and resilience r. rk is the number of recruits per unit
-spawner when B = K.
+spawner when B = k.
 }
 \details{
 Modification of function written by Bill de la Mare
