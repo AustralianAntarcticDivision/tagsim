@@ -69,3 +69,31 @@ create_model_hcr <- function(control){
   ## return the object
   return(obj)
 }
+
+#' Create an object to store a hcr simulation results
+#'
+#' Create an object to storea hcr simulation results
+#' @param control a control file
+#' @param n_reps number of replicate simulations
+#' @export
+create_storage_hcr <- function(control, n_reps){
+  ## create a list to store the simulation output
+  obj<- list("true_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+             "est_N" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+             "recruits" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps),
+             "catch" = matrix(0, nrow=control[["n_years"]] + 1, ncol=n_reps))
+  ## return the object
+  obj
+}
+
+## not going to be very memory efficient
+store_rep_hcr <- function(storage, control, model, rep){
+  ## store true and estimated N, recruits and catch
+  storage$true_N[,rep] <- model[["N"]]
+  storage$est_N[,rep] <- model[["abund_est"]]
+  storage$recruits[,rep] <- model[["recruits"]]
+  storage$catch[,rep] <- model[["catch"]]
+  ## return the object
+  storage
+}
+
