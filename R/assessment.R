@@ -34,21 +34,20 @@ do_assessment <- function(control, model, year){
     warning("this method is not yet implemented, NA estimate is returned")
     est <- NA
   },
+  ## survey a structured population
   survey = {
     ## estimate biomass with some error
     pop_size <- sum(model$N[year,])
     rand_norm <- max(rnorm(1, 1, control[["assess_pars"]]$cv), 0)
     est <- pop_size * rand_norm
-#   },
-#   strat_survey = {
-#     ## as above but stratified
-#     est <- NULL
-#   },
-#   rel_abund = {
-#     ## some measure of relative abundace such as CPUE
-#     est <- NULL
-  }
-  )
+  },
+  ## survey a hcr population
+  survey_hcr = {
+    ## estimate biomass with some error
+    pop_size <- model$N[year]
+    rand_norm <- max(rnorm(1, 1, control[["assess_pars"]]$cv), 0)
+    return(pop_size * rand_norm)
+  })
   ## if a single estimate
   if(length(est)==1){
    est <- rep(est / control[["n_regions"]], control[["n_regions"]])
