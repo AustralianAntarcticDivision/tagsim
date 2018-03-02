@@ -50,16 +50,16 @@ create_model_hcr <- function(control){
   init_A <- rep(0, control[["n_years"]] +1)
   ## fill year zero
   if(control[["rec_pars"]]$stochastic_rec){
-    init_N[1,] <- control[["pop_pars"]]$initial *
+    init_N[1] <- control[["pop_pars"]]$initial *
                   rlnorm(1, control[["rec_pars"]]$mu, control[["rec_pars"]]$s)
   }else{
-    init_N[1,] <- control[["pop_pars"]]$initial
+    init_N[1] <- control[["pop_pars"]]$initial
   }
   ## add initial recruitment (not getting used currently)
-  init_R[1,] <- est_recruits(type=control[["rec_pars"]]$type,
+  init_R[1] <- est_recruits(type=control[["rec_pars"]]$type,
                             N_area = 1, rec_pars=control[["rec_pars"]])
   ## initial assessment knows pop size without error ** can change this
-  init_A[1,] <- init_N[1,]
+  init_A[1] <- init_N[1]
   ## create the object
   obj <- list("N" = init_N,
               "recruits" = init_R,
