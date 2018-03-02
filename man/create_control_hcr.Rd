@@ -5,8 +5,8 @@
 \alias{control}
 \title{Create a simplified control file for a single-area population without tags}
 \usage{
-create_control_hcr(years, pop_pars, rec_pars = list(type = "constant", mu = 0,
-  s = 1, spat_dist = "uniform"), harvest_pars, assess_pars, stoch_rec = TRUE)
+create_control_hcr(years, pop_pars, rec_pars, harvest_pars, assess_pars,
+  stoch_rec = TRUE)
 }
 \arguments{
 \item{years}{vector of years (integers starting with 1)}
@@ -29,5 +29,5 @@ constant exploitation rate, "TAC" = constant catch, ...),  (see \code{\link{calc
 The control file specifies the simulation parameters
 }
 \details{
-A simulation is run using the function (see \code{\link{run_sim}})
+A simulation is run using the function (see \code{\link{run_hcr}})
 }

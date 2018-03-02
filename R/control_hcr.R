@@ -2,7 +2,7 @@
 #'
 #' The control file specifies the simulation parameters
 #'
-#' A simulation is run using the function (see \code{\link{run_sim}})
+#' A simulation is run using the function (see \code{\link{run_hcr}})
 #' @param years vector of years (integers starting with 1)
 #' @param pop_pars list of population parameters containing the initial population
 #' size ("initial") and instantaneous natural mortality ("nat_mort")
@@ -17,7 +17,7 @@
 #' @export
 create_control_hcr <- function(years,
                                pop_pars,
-                               rec_pars=list("type"="constant", "mu"=0, "s"=1, "spat_dist"="uniform"),
+                               rec_pars,
                                harvest_pars,
                                assess_pars,
                                stoch_rec = TRUE){
@@ -25,6 +25,7 @@ create_control_hcr <- function(years,
   ## create list object
   control <- list("years" = years,
                   "pop_pars" = pop_pars,
+                  "rec_pars" = rec_pars,
                   "harvest_pars" =harvest_pars,
                   "assess_pars" = assess_pars,
                   "n_years" = length(years))
