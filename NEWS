@@ -1,3 +1,9 @@
+Changes in tagsim VERSION 0.2.6
+
+o New option for simulating a single-area population with no tagging data to
+explore harvest control rules. Functions 'create_control_hcr' and 'run_hcr'
+are used instead of 'create_control' and 'run_sim'
+
 Changes in tagsim VERSION 0.2.4
 
 o permit the user to specify either 'resiliance', 'K' and 'rk' or just 'a' and
