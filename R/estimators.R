@@ -19,7 +19,7 @@ NULL
 
 
 #' @export
-#' @rdname petersen
+#' @rdname chapman
 chapman_n <- function(tags, catch, recaps, check_type="srelease"){
   ## check function inputs
   switch(check_type,
@@ -41,7 +41,7 @@ chapman_n <- function(tags, catch, recaps, check_type="srelease"){
 }
 
 #' @export
-#' @rdname petersen
+#' @rdname chapman
 chapman_wt <- function(tags, catch, recaps, mean_wt=0, check_type="srelease"){
   ## check function inputs
   switch(check_type,

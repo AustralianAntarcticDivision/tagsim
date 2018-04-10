@@ -196,20 +196,8 @@ create_storage <- function(control, n_reps){
 
 ## not going to be very memory efficient
 store_sim <- function(storage, control, model, sim){
-  ##
-  if(control[["assess_pars"]]$type %in% c("single_tag", "survey")){
-    if(control[["assess_pars"]]$method=="Chapman"){
-      storage$true_N[,sim] <- rowSums(model[["N_true"]])*control[["assess_pars"]]$mean_wt
-    }else{storage$true_N[,sim] <- rowSums(model[["N_true"]])}
-    storage$est_N[,sim] <- rowSums(model[["abund_est"]])
-    storage$catch[,sim] <- rowSums(model[["catch"]])
-    storage$N_recaps[,sim]<-rowSums(model[["recaps"]])
-    storage$N_releases[,sim]<-rowSums(model[["releases"]])
-    storage$tags_available[,sim]<-rowSums(model[["tags_available"]])
-    ## return the object
-    return(storage)
-  }else if (control[["assess_pars"]]$type %in% c("multi_tag")){
-    if(control[["assess_pars"]]$method=="Chapman"){
+  if (control[["assess_pars"]]$type %in% c("multi_tag","single_tag", "survey")){
+    if(control[["assess_pars"]]$method=="Chapman"& control[["assess_pars"]]$unit %in% c("kg","tonnes")){
       storage$true_N[,sim] <- rowSums(model[["N_true"]])*control[["assess_pars"]]$mean_wt
     }else{storage$true_N[,sim] <- rowSums(model[["N_true"]])}
     storage$est_N[,sim] <- rowSums(model[["abund_est"]])
@@ -220,9 +208,9 @@ store_sim <- function(storage, control, model, sim){
     storage$expected_recaps[,sim]<-rowSums(model[["expected_recaps"]])
     ## return the object
     return(storage)
-  }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
-    ## Klaas to fill in
-    ## return the object
-    return(storage)
+    # }else if(control[["assess_pars"]]$type %in% c("const_TAC")){
+    #   ## Klaas to fill in
+    #   ## return the object
+    #   return(storage)
   }else stop("storage method not defined")
 }

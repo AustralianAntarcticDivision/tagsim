@@ -2,15 +2,9 @@
 % Please edit documentation in R/estimators.R
 \name{petersen}
 \alias{petersen}
-\alias{chapman_n}
-\alias{chapman_wt}
 \alias{petersen}
 \title{Petersen estimators}
 \usage{
-chapman_n(tags, catch, recaps, check_type = "srelease")
-
-chapman_wt(tags, catch, recaps, mean_wt = 0, check_type = "srelease")
-
 petersen(tags, catch, recaps, check_type = "srelease")
 }
 \arguments{

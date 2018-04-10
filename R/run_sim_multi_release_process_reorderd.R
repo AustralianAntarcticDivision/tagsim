@@ -22,9 +22,9 @@ run_sim_multi_release_new_process_order <- function(control, n_reps, run_assessm
         # N_true vector starts with the initial biomass
         temp_pop <- model$N_true[y,]
       }else{
-     
+        
         temp_pop <- model$N_end_season[y-1,]
-        # single pool of tags to sample from for probability of recapture - this could introduce bias/error as 
+       
       }
       
       # multi_release function will be calculating tags available for each release event
@@ -47,7 +47,7 @@ run_sim_multi_release_new_process_order <- function(control, n_reps, run_assessm
         rec <- model$N_true[y-1]-temp_pop
       }
       
-
+      
       ## assign it to areas (this can be replaced with a function)
       # rec_area <- ceiling(rec * control$rec_area)
       rec_area <- rec * control$rec_area
@@ -74,8 +74,11 @@ run_sim_multi_release_new_process_order <- function(control, n_reps, run_assessm
       catch_by_area <- temp_catch/control[["regions"]]
       
       ## 2.4 release tags make this stochastic 
-      tag_releases <- round(catch_by_area * control[["harvest_pars"]]$tag_rate)
-      
+      if(control[["tag_pars"]]$catch_dependent==TRUE){
+        tag_releases <- round(catch_by_area * control[["harvest_pars"]]$tag_rate)
+      }else{
+        tag_releases <- round(true_N*control[["harvest_pars"]]$tag_rate)
+      }
       # recaps by year instead of area
       # recaps_by_yr <- rep(0,y)
       # 2.5 recapture tags based on tagged fish available from the previous season
@@ -113,7 +116,7 @@ run_sim_multi_release_new_process_order <- function(control, n_reps, run_assessm
         temp_untagged <- temp_pop - catch_by_area + sum(recaps_by_yr)
         # account for the tagged population - this is done in the tags available below
         # temp_tagged <- tag_releases - sum(recaps_by_yr)
-        }
+      }
       
       # account for the untagged population
       # # add releases back in to the total population
@@ -182,8 +185,8 @@ run_sim_multi_release_new_process_order <- function(control, n_reps, run_assessm
       model$tags_available_store[y,]<- sum(avail_tags[,y])
       model$recaps[,y] <- recaps_by_yr
       model$recaps_store[y,] <- sum(recaps_by_yr)
-      if(control[["assess_pars"]]$method=="Chapman"){
-      model$catch[y,] <- catch_by_area*control[["assess_pars"]]$mean_wt
+      if(control[["assess_pars"]]$method=="Chapman" & control[["assess_pars"]]$unit %in% c("kg","tonnes")){
+        model$catch[y,] <- catch_by_area*control[["assess_pars"]]$mean_wt
       }else{model$catch[y,] <- catch_by_area}
       model$recruits[y,] <- rec
       model$expected_recaps[y,] <- round(expected_recaps,0)
